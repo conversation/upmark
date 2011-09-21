@@ -2,10 +2,6 @@ module Upmark
   class Parser < Parslet::Parser
     root(:content)
 
-    rule(:node) {
-      element.repeat(0).as(:node)
-    }
-
     rule(:element) {
       tag(close: false).as(:start_tag) >> content.as(:content) >> tag(close: true).as(:end_tag)
     }
