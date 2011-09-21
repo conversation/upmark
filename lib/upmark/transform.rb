@@ -1,14 +1,8 @@
 module Upmark
   class Transform < Parslet::Transform
     rule(
-      node: subtree(:value)
+      element: subtree(:value)
     ) { value }
-
-    rule(
-      start_tag: {name: "p"},
-      end_tag:   {name: "p"},
-      content:   simple(:value)
-    ) { "#{value}\n\n" }
 
     rule(
       start_tag: {name: "p"},
@@ -19,11 +13,23 @@ module Upmark
     rule(
       start_tag: {name: "strong"},
       end_tag:   {name: "strong"},
-      content:   simple(:value)
-    ) { "**#{value}**" }
+      content:   sequence(:values)
+    ) { "**#{values.join}**" }
+
+    rule(
+      start_tag: {name: "em"},
+      end_tag:   {name: "em"},
+      content:   sequence(:values)
+    ) { "*#{values.join}*" }
+
+    rule(
+      start_tag: {name: "a"},
+      end_tag:   {name: "a"},
+      content:   sequence(:values)
+    ) { "[#{values.join}]" }
 
     rule(
       text: simple(:value)
-    ) { value.to_s.strip }
+    ) { value }
   end
 end

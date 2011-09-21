@@ -3,14 +3,16 @@ module Upmark
     root(:content)
 
     rule(:content) {
-      text.maybe >> (
-        element >>
-        text.maybe
+      (
+        element.as(:element) |
+        text.as(:text)
       ).repeat(0)
     }
 
     rule(:element) {
-      tag(close: false).as(:start_tag) >> content.as(:content) >> tag(close: true).as(:end_tag)
+      tag(close: false).as(:start_tag) >>
+      content.as(:content) >>
+      tag(close: true).as(:end_tag)
     }
 
     rule(:text) {
