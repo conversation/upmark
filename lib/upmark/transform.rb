@@ -14,7 +14,7 @@ module Upmark
       start_tag: {name: "p"},
       end_tag:   {name: "p"},
       content:   sequence(:values)
-    ) { puts values; values.join + "\n\n" }
+    ) { values.join + "\n\n" }
 
     rule(
       start_tag: {name: "strong"},

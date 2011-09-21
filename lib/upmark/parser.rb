@@ -2,15 +2,15 @@ module Upmark
   class Parser < Parslet::Parser
     root(:content)
 
-    rule(:element) {
-      tag(close: false).as(:start_tag) >> content.as(:content) >> tag(close: true).as(:end_tag)
-    }
-
     rule(:content) {
       text.maybe >> (
         element >>
         text.maybe
       ).repeat(0)
+    }
+
+    rule(:element) {
+      tag(close: false).as(:start_tag) >> content.as(:content) >> tag(close: true).as(:end_tag)
     }
 
     rule(:text) {
