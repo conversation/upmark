@@ -21,9 +21,6 @@ module Upmark
     # Any more than two consecutive newline characters is superflous.
     result = result.gsub(/\n(\s*\n)+/, "\n\n")
 
-    pp ast
-    pp result
-
     result.strip
   end
 end

@@ -16,38 +16,46 @@ module Upmark
     }
 
     rule(:text) {
-      match('[^<>]').repeat(1)
+      match(/[^<>]/).repeat(1)
     }
 
     rule(:start_tag) {
       str('<') >>
-      (
-        str('>').absent? >>
-        match("[a-zA-Z]")
-      ).repeat(1).as(:name) >>
-      (space >> attribute).repeat(0).as(:attributes) >>
+      tag_name.as(:name) >>
+      (space >> attribute).repeat.as(:attributes) >>
       str('>')
-    }
-
-    rule(:attribute) {
-      (
-        str('=').absent? >> any
-      ).repeat(1).as(:name) >>
-      str('=') >>
-      (
-        match(/['"]/) >>
-        (match(/['"]/).absent? >> any).repeat.as(:value) >>
-        match(/['"]/)
-      )
     }
 
     rule(:end_tag) {
       str('</') >>
+      tag_name.as(:name) >>
+      str('>')
+    }
+
+    rule(:tag_name) {
       (
         str('>').absent? >>
-        match("[a-zA-Z]")
-      ).repeat(1).as(:name) >>
-      str('>')
+        match(/[a-zA-Z]/)
+      ).repeat(1)
+    }
+
+    rule(:attribute) {
+      attribute_name.as(:name) >>
+      str('=') >>
+      match(/['"]/) >>
+      attribute_value.as(:value) >>
+      match(/['"]/)
+    }
+
+    rule(:attribute_name) {
+      match(/[a-zA-Z_:]/) >> (
+        str('=').absent? >>
+        match(/[\w:\.-]/)
+      ).repeat
+    }
+
+    rule(:attribute_value) {
+      (match(/['"]/).absent? >> match(/[^%&]/)).repeat
     }
 
     rule(:space) { match('\s').repeat(1) }

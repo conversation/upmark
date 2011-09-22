@@ -146,6 +146,7 @@ describe Upmark::Parser do
         end
       end
     end
+
     context "<a>" do
       context "single element" do
         let(:html) { %q{<a href="http://helvetica.com/" title="art party organic">messenger bag skateboard</a>} }

@@ -26,17 +26,25 @@ module Upmark
       start_tag: {name: "a", attributes: subtree(:attributes)},
       end_tag:   {name: "a"},
       content:   sequence(:values)
-    ) do
-      attributes = self.attributes.inject({}) {|hash, attribute| hash[attribute[:name].to_sym] = attribute[:value]; hash }
+    ) do |dictionary|
+      attributes = map_attributes_subtree(dictionary[:attributes])
 
-      href  = attributes[:href]
-      title = attributes[:title]
+      values = dictionary[:values].join
+      href   = attributes[:href]
+      title  = attributes[:title]
 
-      %Q{[#{values.join}](#{href} "#{title}")}
+      %Q{[#{values}](#{href} "#{title}")}
     end
 
     rule(
       text: simple(:value)
     ) { value }
+
+    def self.map_attributes_subtree(ast)
+      ast.inject({}) do |hash, attribute|
+        hash[attribute[:name].to_sym] = attribute[:value]
+        hash
+      end
+    end
   end
 end
