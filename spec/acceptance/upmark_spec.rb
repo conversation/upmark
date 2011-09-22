@@ -4,6 +4,8 @@ describe Upmark, ".convert" do
   subject { Upmark.convert(html) }
 
   let(:html) { <<-HTML.strip }
+<h1>messenger bag skateboard</h1>
+
 <p>messenger bag skateboard</p>
 
 <p>messenger <em>bag</em> <strong>skateboard</strong></p>
@@ -36,6 +38,8 @@ describe Upmark, ".convert" do
   HTML
 
   it { should == <<-MD.strip }
+# messenger bag skateboard
+
 messenger bag skateboard
 
 messenger *bag* **skateboard**

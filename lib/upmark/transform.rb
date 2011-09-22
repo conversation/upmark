@@ -45,5 +45,8 @@ module Upmark
     rule(tag(:strong)) { "**#{values.join}**" }
     rule(tag(:em))     { "*#{values.join}*" }
     rule(tag(:li))     { "#{values.join}" }
+    rule(tag(:h1))     { "# #{values.join}" }
+    rule(tag(:h2))     { "## #{values.join}" }
+    rule(tag(:h3))     { "### #{values.join}" }
   end
 end

@@ -33,10 +33,11 @@ module Upmark
     }
 
     rule(:tag_name) {
+      first_name_char >>
       (
         str('>').absent? >>
-        match(/[a-zA-Z]/)
-      ).repeat(1)
+        name_char
+      ).repeat
     }
 
     rule(:attribute) {
@@ -48,15 +49,18 @@ module Upmark
     }
 
     rule(:attribute_name) {
-      match(/[a-zA-Z_:]/) >> (
+      first_name_char >> (
         str('=').absent? >>
-        match(/[\w:\.-]/)
+        name_char
       ).repeat
     }
 
     rule(:attribute_value) {
       (match(/['"]/).absent? >> match(/[^%&]/)).repeat
     }
+
+    rule(:first_name_char) { match(/[a-zA-Z_:]/) }
+    rule(:name_char) { match(/[\w:\.-]/) }
 
     rule(:space) { match('\s').repeat(1) }
   end
