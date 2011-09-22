@@ -35,6 +35,9 @@ describe Upmark, ".convert" do
   <li><p><strong>bag</strong></p></li>
   <li><p>skateboard</p></li>
 </ol>
+
+<div>messenger <strong>bag</strong> skateboard</div>
+<div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
   HTML
 
   it { should == <<-MD.strip }
@@ -65,5 +68,8 @@ messenger *bag* **skateboard**
 2. **bag**
 
 3. skateboard
+
+<div>messenger **bag** skateboard</div>
+<div id="tofu" class="art party">messenger **bag** skateboard</div>
   MD
 end
