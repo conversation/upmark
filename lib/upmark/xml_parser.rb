@@ -6,7 +6,7 @@ module Upmark
   # It's worth referring to the XML spec:
   #   http://www.w3.org/TR/2000/REC-xml-20001006
   #
-  class Parser < Parslet::Parser
+  class XMLParser < Parslet::Parser
     root(:content)
 
     rule(:content) {

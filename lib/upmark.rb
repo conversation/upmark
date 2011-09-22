@@ -3,14 +3,14 @@ require "bundler/setup"
 
 require "parslet"
 
-require "upmark/parser"
-require "upmark/transform"
+require "upmark/xml_parser"
+require "upmark/markdown_transform"
 require "upmark/version"
 
 module Upmark
   def self.convert(html)
-    parser    = Parser.new
-    transform = Transform.new
+    parser    = XMLParser.new
+    transform = MarkdownTransform.new
 
     ast    = parser.parse(html.strip)
     result = transform.apply(ast)

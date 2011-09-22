@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Upmark::Transform do
-  let(:transform) { Upmark::Transform.new }
+describe Upmark::MarkdownTransform do
+  let(:transform) { Upmark::MarkdownTransform.new }
 
   context "#apply" do
     subject { transform.apply(ast) }

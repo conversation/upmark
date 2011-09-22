@@ -1,7 +1,11 @@
 require "core_ext/array"
 
 module Upmark
-  class Transform < Parslet::Transform
+  # The markdown transform class.
+  #
+  # Transforms an abstract syntax tree (AST) into a markdown document.
+  #
+  class MarkdownTransform < Parslet::Transform
     def self.tag(tag_name)
       tag_name = tag_name.to_s.downcase
 
