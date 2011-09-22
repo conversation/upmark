@@ -1,7 +1,7 @@
 module Upmark
   # The XML parser class.
   #
-  # Parses a XML document fragment into an abstract syntax tree (AST).
+  # Parses a XML document into an abstract syntax tree (AST).
   #
   # It's worth referring to the XML spec:
   #   http://www.w3.org/TR/2000/REC-xml-20001006

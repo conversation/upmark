@@ -1,9 +1,7 @@
-require "core_ext/array"
-
 module Upmark
-  # The markdown transform class.
+  # The Markdown transform class.
   #
-  # Transforms an abstract syntax tree (AST) into a markdown document.
+  # Transforms an abstract syntax tree (AST) into a Markdown document.
   #
   class MarkdownTransform < Parslet::Transform
     def self.tag(tag_name)

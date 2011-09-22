@@ -1,11 +1,10 @@
-require "rubygems"
-require "bundler/setup"
-
 require "parslet"
 
-require "upmark/xml_parser"
+require "core_ext/array"
+
 require "upmark/markdown_transform"
 require "upmark/version"
+require "upmark/xml_parser"
 
 module Upmark
   def self.convert(html)
