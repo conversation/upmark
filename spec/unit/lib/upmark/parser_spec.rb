@@ -32,93 +32,141 @@ describe Upmark::Parser do
     it { should_not parse("") }
   end
 
+  context "#start_tag" do
+    subject { parser.start_tag }
+
+    it { should     parse %q{<tofu art="party">} }
+    it { should     parse("<tofu>") }
+    it { should_not parse("</tofu>") }
+  end
+
+  context "#end_tag" do
+    subject { parser.end_tag }
+
+    it { should     parse("</tofu>") }
+    it { should_not parse("<tofu>") }
+  end
+
+  context "#attribute" do
+    subject { parser.attribute }
+
+    it { should     parse %q{art="party"} }
+    it { should_not parse("art") }
+    it { should_not parse("=party") }
+  end
+
   context "#parse" do
     subject { parser.parse(html) }
 
-    context "with multiple inline elements" do
-      let(:html) { "<p>messenger</p><p>bag</p><p>skateboard</p>" }
+    context "<p>" do
+      context "with multiple inline elements" do
+        let(:html) { "<p>messenger</p><p>bag</p><p>skateboard</p>" }
 
-      it do
-        should == [
-          {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "messenger"}]
+        it do
+          should == [
+            {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "messenger"}]
+              }
+            }, {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "bag"}]
+              }
+            }, {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "skateboard"}]
+              }
             }
-          }, {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "bag"}]
-            }
-          }, {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "skateboard"}]
-            }
-          }
-        ]
+          ]
+        end
       end
-    end
 
-    context "with multiple elements" do
-      let(:html) { "<p>messenger</p>\n<p>bag</p>\n<p>skateboard</p>" }
+      context "with multiple elements" do
+        let(:html) { "<p>messenger</p>\n<p>bag</p>\n<p>skateboard</p>" }
 
-      it do
-        should == [
-          {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "messenger"}]
+        it do
+          should == [
+            {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "messenger"}]
+              }
+            }, {
+              text: "\n"
+            }, {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "bag"}]
+              }
+            }, {
+              text: "\n"
+            }, {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [{text: "skateboard"}]
+              }
             }
-          }, {
-            text: "\n"
-          }, {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "bag"}]
-            }
-          }, {
-            text: "\n"
-          }, {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [{text: "skateboard"}]
-            }
-          }
-        ]
+          ]
+        end
       end
-    end
 
-    context "with nested elements" do
-      let(:html) { "<p>messenger <strong>bag</strong> skateboard</p>" }
+      context "with nested elements" do
+        let(:html) { "<p>messenger <strong>bag</strong> skateboard</p>" }
 
-      it do
-        should == [
-          {
-            element: {
-              start_tag: {name: "p"},
-              end_tag:   {name: "p"},
-              content:   [
-                {text: "messenger "},
-                {
-                  element: {
-                    start_tag: {name: "strong"},
-                    content:   [{text: "bag"}],
-                    end_tag:   {name: "strong"}
+        it do
+          should == [
+            {
+              element: {
+                start_tag: {name: "p", attributes: []},
+                end_tag:   {name: "p"},
+                content:   [
+                  {text: "messenger "},
+                  {
+                    element: {
+                      start_tag: {name: "strong", attributes: []},
+                      content:   [{text: "bag"}],
+                      end_tag:   {name: "strong"}
+                    }
+                  }, {
+                    text: " skateboard"
                   }
-                }, {
-                  text: " skateboard"
-                }
-              ]
+                ]
+              }
             }
-          }
-        ]
+          ]
+        end
+      end
+    end
+    context "<a>" do
+      context "single element" do
+        let(:html) { %q{<a href="http://helvetica.com/" title="art party organic">messenger bag skateboard</a>} }
+
+        it do
+          should == [
+            {
+              element: {
+                start_tag: {
+                  name: "a",
+                  attributes: [
+                    {name: "href",  value: "http://helvetica.com/"},
+                    {name: "title", value: "art party organic"}
+                  ]
+                },
+                end_tag: {name: "a"},
+                content: [{text: "messenger bag skateboard"}]
+              }
+            }
+          ]
+        end
       end
     end
   end

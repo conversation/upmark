@@ -10,21 +10,46 @@ module Upmark
     }
 
     rule(:element) {
-      tag(close: false).as(:start_tag) >>
+      start_tag.as(:start_tag) >>
       content.as(:content) >>
-      tag(close: true).as(:end_tag)
+      end_tag.as(:end_tag)
     }
 
     rule(:text) {
       match('[^<>]').repeat(1)
     }
 
-    def tag(options = {})
-      parslet = str('<')
-      parslet = parslet >> str('/') if options[:close]
-      parslet = parslet >> (str('>').absent? >> match("[a-zA-Z]")).repeat(1).as(:name)
-      parslet = parslet >> str('>')
-      parslet
-    end
+    rule(:start_tag) {
+      str('<') >>
+      (
+        str('>').absent? >>
+        match("[a-zA-Z]")
+      ).repeat(1).as(:name) >>
+      (space >> attribute).repeat(0).as(:attributes) >>
+      str('>')
+    }
+
+    rule(:attribute) {
+      (
+        str('=').absent? >> any
+      ).repeat(1).as(:name) >>
+      str('=') >>
+      (
+        match(/['"]/) >>
+        (match(/['"]/).absent? >> any).repeat.as(:value) >>
+        match(/['"]/)
+      )
+    }
+
+    rule(:end_tag) {
+      str('</') >>
+      (
+        str('>').absent? >>
+        match("[a-zA-Z]")
+      ).repeat(1).as(:name) >>
+      str('>')
+    }
+
+    rule(:space) { match('\s').repeat(1) }
   end
 end
