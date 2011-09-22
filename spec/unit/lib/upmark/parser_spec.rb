@@ -6,54 +6,69 @@ describe Upmark::Parser do
   context "#content" do
     subject { parser.content }
 
-    it { should parse("") }
-    it { should parse("messenger bag skateboard") }
-    it { should parse("<p>messenger bag skateboard</p>") }
-    it { should parse("messenger <p>bag</p> skateboard") }
-    it { should parse("<p>messenger</p><p>bag</p><p>skateboard</p>") }
-    it { should parse("<p>messenger</p>\n<p>bag</p>\n<p>skateboard</p>") }
-    it { should parse("<p>messenger <strong>bag</strong> skateboard</p>") }
+    it { should parse "" }
+    it { should parse "messenger bag skateboard" }
+    it { should parse "<p>messenger bag skateboard</p>" }
+    it { should parse "messenger <p>bag</p> skateboard" }
+    it { should parse "<p>messenger</p><p>bag</p><p>skateboard</p>" }
+    it { should parse "<p>messenger</p>\n<p>bag</p>\n<p>skateboard</p>" }
+    it { should parse "<p>messenger <strong>bag</strong> skateboard</p>" }
   end
 
   context "#element" do
     subject { parser.element }
 
-    it { should     parse("<p>messenger bag skateboard</p>") }
-    it { should_not parse("<p>messenger bag skateboard") }
-    it { should_not parse("messenger bag skateboard</p>") }
-    it { should_not parse("<p>messenger bag skateboard<p>") }
+    it { should     parse "<p>messenger bag skateboard</p>" }
+    it { should_not parse "<p>messenger bag skateboard" }
+    it { should_not parse "messenger bag skateboard</p>" }
+    it { should_not parse "<p>messenger bag skateboard<p>" }
   end
 
   context "#text" do
     subject { parser.text }
 
-    it { should     parse("messenger bag skateboard") }
-    it { should_not parse("<p>messenger bag skateboard</p>") }
-    it { should_not parse("") }
+    it { should     parse "messenger bag skateboard" }
+    it { should_not parse "<p>messenger bag skateboard</p>" }
+    it { should_not parse "" }
   end
 
   context "#start_tag" do
     subject { parser.start_tag }
 
     it { should     parse %q{<tofu art="party">} }
-    it { should     parse("<tofu>") }
-    it { should_not parse("</tofu>") }
+    it { should     parse %q{<tofu art="party" synth="letterpress">} }
+    it { should     parse "<tofu>" }
+    it { should_not parse "</tofu>" }
+    it { should_not parse "<tofu" }
+    it { should_not parse "tofu>" }
   end
 
   context "#end_tag" do
     subject { parser.end_tag }
 
-    it { should     parse("</tofu>") }
-    it { should_not parse("<tofu>") }
+    it { should     parse "</tofu>" }
+    it { should_not parse "<tofu>" }
+    it { should_not parse "<tofu" }
+    it { should_not parse "/tofu>" }
+  end
+
+  context "#name" do
+    subject { parser.name }
+
+    it { should     parse "p" }
+    it { should     parse "h1" }
+    it { should_not parse "1h" }
+    it { should_not parse "h 1" }
   end
 
   context "#attribute" do
     subject { parser.attribute }
 
-    it { should     parse %q{art="party"} }
-    it { should     parse %q{art='party'} }
-    it { should_not parse("art") }
-    it { should_not parse("=party") }
+    it { should     parse %q{art="party organic"} }
+    it { should     parse %q{art='party organic'} }
+    it { should_not parse "art" }
+    it { should_not parse "art=" }
+    it { should_not parse %q{="party organic"} }
   end
 
   context "#parse" do

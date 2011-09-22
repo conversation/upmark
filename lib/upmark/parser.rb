@@ -1,4 +1,11 @@
 module Upmark
+  # The XML parser class.
+  #
+  # Parses a XML document fragment into an abstract syntax tree (AST).
+  #
+  # It's worth referring to the XML spec:
+  #   http://www.w3.org/TR/2000/REC-xml-20001006
+  #
   class Parser < Parslet::Parser
     root(:content)
 
@@ -21,47 +28,33 @@ module Upmark
 
     rule(:start_tag) {
       str('<') >>
-      tag_name.as(:name) >>
+      name.as(:name) >>
       (space >> attribute).repeat.as(:attributes) >>
       str('>')
     }
 
     rule(:end_tag) {
       str('</') >>
-      tag_name.as(:name) >>
+      name.as(:name) >>
       str('>')
     }
 
-    rule(:tag_name) {
-      first_name_char >>
-      (
-        str('>').absent? >>
-        name_char
-      ).repeat
+    rule(:name) {
+      match(/[a-zA-Z_:]/) >> match(/[\w:\.-]/).repeat
     }
 
     rule(:attribute) {
-      attribute_name.as(:name) >>
+      name.as(:name) >>
       str('=') >>
       match(/['"]/) >>
       attribute_value.as(:value) >>
       match(/['"]/)
     }
 
-    rule(:attribute_name) {
-      first_name_char >> (
-        str('=').absent? >>
-        name_char
-      ).repeat
-    }
-
     rule(:attribute_value) {
-      (match(/['"]/).absent? >> match(/[^%&]/)).repeat
+      (match(/['"]/).absent? >> match(/[^<&]/)).repeat
     }
 
-    rule(:first_name_char) { match(/[a-zA-Z_:]/) }
-    rule(:name_char) { match(/[\w:\.-]/) }
-
-    rule(:space) { match('\s').repeat(1) }
+    rule(:space) { match(/\s/).repeat(1) }
   end
 end
