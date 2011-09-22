@@ -1,3 +1,5 @@
+require "core_ext/array"
+
 module Upmark
   class Transform < Parslet::Transform
     def self.tag(name)
@@ -15,20 +17,19 @@ module Upmark
       end
     end
 
-    rule(element: subtree(:value)) { value }
+    rule(element: subtree(:values)) { values }
 
-    rule(text: simple(:value)) { value }
+    rule(text: simple(:value)) { value.to_s }
 
-    rule(
-      start_tag: {name: "ul", attributes: subtree(:attributes)},
-      end_tag:   {name: "ul"},
-      content:   subtree(:value)
-    ) { value }
+    rule(tag(:ul)) do |dictionary|
+      values = dictionary[:values].map {|value| value.strip != "" ? value : nil }.compact
+      values.map {|value| "* #{value}\n" }
+    end
 
-    rule(tag(:p))      { "#{values.join}\n\n" }
-    rule(tag(:strong)) { "**#{values.join}**" }
-    rule(tag(:em))     { "*#{values.join}*" }
-    rule(tag(:li))     { "* #{values.join}" }
+    rule(tag(:ol)) do |dictionary|
+      values = dictionary[:values].map {|value| value.strip != "" ? value : nil }.compact
+      values.map_with_index {|value, i| "#{i + 1}. #{value}\n" }
+    end
 
     rule(tag(:a)) do |dictionary|
       attributes = map_attributes_subtree(dictionary[:attributes])
@@ -39,5 +40,10 @@ module Upmark
 
       %Q{[#{values}](#{href} "#{title}")}
     end
+
+    rule(tag(:p))      { "#{values.join}\n\n" }
+    rule(tag(:strong)) { "**#{values.join}**" }
+    rule(tag(:em))     { "*#{values.join}*" }
+    rule(tag(:li))     { "#{values.join}" }
   end
 end

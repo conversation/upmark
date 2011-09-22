@@ -51,6 +51,7 @@ describe Upmark::Parser do
     subject { parser.attribute }
 
     it { should     parse %q{art="party"} }
+    it { should     parse %q{art='party'} }
     it { should_not parse("art") }
     it { should_not parse("=party") }
   end
