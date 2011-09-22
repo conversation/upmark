@@ -8,7 +8,13 @@ describe Upmark, ".convert" do
 
 <p>messenger <em>bag</em> <strong>skateboard</strong></p>
 
-<p><a href="http://helvetica.com/" title="art party organic">messenger bag skateboard</a></p>
+<p><a href="http://helvetica.com/" title="art party organic">messenger <strong>bag</strong> skateboard</a></p>
+
+<ul>
+  <li>messenger</li>
+  <li><strong>bag</strong></li>
+  <li>skateboard</li>
+</ul>
   HTML
 
   it { should == <<-MD.strip }
@@ -16,6 +22,10 @@ messenger bag skateboard
 
 messenger *bag* **skateboard**
 
-[messenger bag skateboard](http://helvetica.com/ "art party organic")
+[messenger **bag** skateboard](http://helvetica.com/ "art party organic")
+
+  * messenger
+  * **bag**
+  * skateboard
   MD
 end
