@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../../lib", __FILE__)
+
+require "upmark"
+
+if ARGV.length > 0
+  ARGV.each do |arg|
+    puts Upmark.convert(File.read(arg))
+  end
+else
+  puts Upmark.convert(ARGF.read)
+end
+
