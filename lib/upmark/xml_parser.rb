@@ -22,7 +22,7 @@ module Upmark
         content.as(:content) >>
         end_tag.as(:end_tag)
       ) |
-      empty_tag
+      empty_tag.as(:empty_tag)
     }
 
     rule(:text) {
