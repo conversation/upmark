@@ -17,9 +17,12 @@ module Upmark
     }
 
     rule(:element) {
-      start_tag.as(:start_tag) >>
-      content.as(:content) >>
-      end_tag.as(:end_tag)
+      (
+        start_tag.as(:start_tag) >>
+        content.as(:content) >>
+        end_tag.as(:end_tag)
+      ) |
+      empty_tag
     }
 
     rule(:text) {
@@ -30,13 +33,23 @@ module Upmark
       str('<') >>
       name.as(:name) >>
       (space >> attribute).repeat.as(:attributes) >>
+      space? >>
       str('>')
     }
 
     rule(:end_tag) {
       str('</') >>
       name.as(:name) >>
+      space? >>
       str('>')
+    }
+
+    rule(:empty_tag) {
+      str('<') >>
+      name.as(:name) >>
+      (space >> attribute).repeat.as(:attributes) >>
+      space? >>
+      str('/>')
     }
 
     rule(:name) {
@@ -45,16 +58,17 @@ module Upmark
 
     rule(:attribute) {
       name.as(:name) >>
-      str('=') >>
-      match(/['"]/) >>
-      attribute_value.as(:value) >>
-      match(/['"]/)
+      str('=') >> (
+        (str('"') >> attribute_value.as(:value) >> str('"')) | # double quotes
+        (str("'") >> attribute_value.as(:value) >> str("'"))   # single quotes
+      )
     }
 
     rule(:attribute_value) {
       (match(/['"]/).absent? >> match(/[^<&]/)).repeat
     }
 
-    rule(:space) { match(/\s/).repeat(1) }
+    rule(:space)  { match(/\s/).repeat(1) }
+    rule(:space?) { space.maybe }
   end
 end

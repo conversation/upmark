@@ -18,7 +18,10 @@ describe Upmark::XMLParser do
   context "#element" do
     subject { parser.element }
 
+    it { should     parse "<p></p>" }
     it { should     parse "<p>messenger bag skateboard</p>" }
+    it { should     parse %q{<tofu art="party" />} }
+    it { should_not parse "<p>" }
     it { should_not parse "<p>messenger bag skateboard" }
     it { should_not parse "messenger bag skateboard</p>" }
     it { should_not parse "<p>messenger bag skateboard<p>" }
@@ -52,6 +55,17 @@ describe Upmark::XMLParser do
     it { should_not parse "/tofu>" }
   end
 
+  context "#empty_tag" do
+    subject { parser.empty_tag }
+
+    it { should     parse %q{<tofu art="party" />} }
+    it { should     parse %q{<tofu art="party" synth="letterpress" />} }
+    it { should_not parse "<tofu>" }
+    it { should_not parse "</tofu>" }
+    it { should_not parse "<tofu" }
+    it { should_not parse "/tofu>" }
+  end
+
   context "#name" do
     subject { parser.name }
 
@@ -68,7 +82,10 @@ describe Upmark::XMLParser do
     it { should     parse %q{art='party organic'} }
     it { should_not parse "art" }
     it { should_not parse "art=" }
+    it { should_not parse "art=party" }
     it { should_not parse %q{="party organic"} }
+    it { should_not parse %q{art="party organic'} }
+    it { should_not parse %q{art='party organic"} }
   end
 
   context "#parse" do
