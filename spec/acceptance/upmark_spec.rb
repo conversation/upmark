@@ -40,6 +40,18 @@ describe Upmark, ".convert" do
 
 <div>messenger <strong>bag</strong> skateboard</div>
 <div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
+
+<table>
+  <tr>
+    <td>messenger</td>
+  </tr>
+  <tr>
+    <td><strong>bag</strong></td>
+  </tr>
+  <tr>
+    <td>skateboard</td>
+  </tr>
+</table>
   HTML
 
   it { should == <<-MD.strip }
@@ -75,5 +87,17 @@ messenger *bag* **skateboard**
 
 <div>messenger **bag** skateboard</div>
 <div id="tofu" class="art party">messenger **bag** skateboard</div>
+
+<table>
+  <tr>
+    <td>messenger</td>
+  </tr>
+  <tr>
+    <td><strong>bag</strong></td>
+  </tr>
+  <tr>
+    <td>skateboard</td>
+  </tr>
+</table>
   MD
 end

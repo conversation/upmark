@@ -1,5 +1,6 @@
 module Upmark
   module Transform
+    # A preprocess transform which normalises tags.
     class Preprocess < Parslet::Transform
       rule(
         start_tag: {name: simple(:tag_name), attributes: subtree(:attributes)},

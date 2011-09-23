@@ -20,6 +20,25 @@ module Upmark
         end
       end
 
+      rule(
+        tag:     {name: simple(:tag_name), attributes: subtree(:attributes)},
+        content: subtree(:values),
+        ignore: true
+      ) do |dictionary|
+        attributes = map_attributes_subtree(dictionary[:attributes])
+        values     = dictionary[:values].join
+        tag_name   = dictionary[:tag_name]
+
+        attributes_list =
+          if attributes.any?
+            " " + attributes.map {|name, value| %Q{#{name}="#{value}"} }.join(" ")
+          else
+            ""
+          end
+
+        %Q{<#{tag_name}#{attributes_list}>#{values}</#{tag_name}>}
+      end
+
       rule(element: subtree(:values)) { values }
 
       rule(text: simple(:value)) { value.to_s }
