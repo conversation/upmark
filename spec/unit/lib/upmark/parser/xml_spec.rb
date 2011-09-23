@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Upmark::XMLParser do
-  let(:parser) { Upmark::XMLParser.new }
+describe Upmark::Parser::XML do
+  let(:parser) { Upmark::Parser::XML.new }
 
   context "#content" do
     subject { parser.content }

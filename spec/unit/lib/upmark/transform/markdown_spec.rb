@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe Upmark::MarkdownTransform do
-  let(:transform) { Upmark::MarkdownTransform.new }
+describe Upmark::Transform::Markdown do
+  let(:transform) { Upmark::Transform::Markdown.new }
 
   context "#apply" do
     subject { transform.apply(ast) }
@@ -12,8 +12,8 @@ describe Upmark::MarkdownTransform do
           [
             {
               element: {
-                tag: {name: "p", attributes: []},
-                content:   [{text: "messenger bag skateboard"}]
+                tag:     {name: "p", attributes: []},
+                content: [{text: "messenger bag skateboard"}]
               }
             }
           ]
@@ -27,18 +27,18 @@ describe Upmark::MarkdownTransform do
           [
             {
               element: {
-                tag: {name: "p", attributes: []},
-                content:   [{text: "messenger"}]
+                tag:     {name: "p", attributes: []},
+                content: [{text: "messenger"}]
               }
             }, {
               element: {
-                tag: {name: "p", attributes: []},
-                content:   [{text: "bag"}]
+                tag:     {name: "p", attributes: []},
+                content: [{text: "bag"}]
               }
             }, {
               element: {
-                tag: {name: "p", attributes: []},
-                content:   [{text: "skateboard"}]
+                tag:     {name: "p", attributes: []},
+                content: [{text: "skateboard"}]
               }
             }
           ]

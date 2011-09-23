@@ -2,18 +2,18 @@ require "parslet"
 
 require "core_ext/array"
 
-require "upmark/markdown_transform"
-require "upmark/preprocess_transform"
+require "upmark/parser/xml"
+require "upmark/transform/markdown"
+require "upmark/transform/preprocess"
 require "upmark/version"
-require "upmark/xml_parser"
 
 module Upmark
   def self.convert(html)
-    parser     = XMLParser.new
-    preprocess = PreprocessTransform.new
-    markdown   = MarkdownTransform.new
+    xml        = Parser::XML.new
+    preprocess = Transform::Preprocess.new
+    markdown   = Transform::Markdown.new
 
-    ast = parser.parse(html.strip)
+    ast = xml.parse(html.strip)
     ast = preprocess.apply(ast)
     ast = markdown.apply(ast)
 
