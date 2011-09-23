@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Josh Bassett", "Gus Gollings"]
   s.email       = "dev@theconversation.edu.au"
   s.homepage    = "https://github.com/conversation/upmark"
-  s.summary     = %q{A HTML to Markdown converter}
-  s.description = %q{A HTML to Markdown converter}
+  s.summary     = %q{A HTML to Markdown converter.}
+  s.description = %q{Upmark has the skills to convert your HTML to Markdown.}
 
   s.rubyforge_project = "upmark"
 
