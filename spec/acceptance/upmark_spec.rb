@@ -12,6 +12,8 @@ describe Upmark, ".convert" do
 
 <p><a href="http://helvetica.com/" title="art party organic">messenger <strong>bag</strong> skateboard</a></p>
 
+<img src="http://helvetica.com/image.gif" title="art party organic" alt="messenger bag skateboard" />
+
 <ul>
   <li>messenger</li>
   <li><strong>bag</strong></li>
@@ -48,6 +50,8 @@ messenger bag skateboard
 messenger *bag* **skateboard**
 
 [messenger **bag** skateboard](http://helvetica.com/ "art party organic")
+
+![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")
 
 * messenger
 * **bag**

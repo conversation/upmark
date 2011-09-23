@@ -12,8 +12,7 @@ describe Upmark::MarkdownTransform do
           [
             {
               element: {
-                start_tag: {name: "p", attributes: []},
-                end_tag:   {name: "p"},
+                tag: {name: "p", attributes: []},
                 content:   [{text: "messenger bag skateboard"}]
               }
             }
@@ -28,20 +27,17 @@ describe Upmark::MarkdownTransform do
           [
             {
               element: {
-                start_tag: {name: "p", attributes: []},
-                end_tag:   {name: "p"},
+                tag: {name: "p", attributes: []},
                 content:   [{text: "messenger"}]
               }
             }, {
               element: {
-                start_tag: {name: "p", attributes: []},
-                end_tag:   {name: "p"},
+                tag: {name: "p", attributes: []},
                 content:   [{text: "bag"}]
               }
             }, {
               element: {
-                start_tag: {name: "p", attributes: []},
-                end_tag:   {name: "p"},
+                tag: {name: "p", attributes: []},
                 content:   [{text: "skateboard"}]
               }
             }
@@ -58,14 +54,13 @@ describe Upmark::MarkdownTransform do
           [
             {
               element: {
-                start_tag: {
+                tag: {
                   name: "a",
                   attributes: [
                     {name: "href",  value: "http://helvetica.com/"},
                     {name: "title", value: "art party organic"}
                   ]
                 },
-                end_tag: {name: "a"},
                 content: [{text: "messenger bag skateboard"}]
               }
             }
@@ -73,6 +68,30 @@ describe Upmark::MarkdownTransform do
         end
 
         it { should == [%q{[messenger bag skateboard](http://helvetica.com/ "art party organic")}] }
+      end
+    end
+
+    context "<img>" do
+      context "empty element" do
+        let(:ast) do
+          [
+            {
+              element: {
+                tag: {
+                  name: "img",
+                  attributes: [
+                    {name: "src",   value: "http://helvetica.com/image.gif"},
+                    {name: "title", value: "art party organic"},
+                    {name: "alt",   value: "messenger bag skateboard"}
+                  ]
+                },
+                content: []
+              }
+            }
+          ]
+        end
+
+        it { should == [%q{![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")}] }
       end
     end
   end

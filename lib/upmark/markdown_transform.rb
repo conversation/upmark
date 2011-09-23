@@ -7,16 +7,8 @@ module Upmark
     def self.tag(tag_name)
       tag_name = tag_name.to_s.downcase
       {
-        start_tag: {name: tag_name, attributes: subtree(:attributes)},
-        end_tag:   {name: tag_name},
-        content:   sequence(:values)
-      }
-    end
-
-    def self.empty_tag(tag_name)
-      tag_name = tag_name.to_s.downcase
-      {
-        empty_tag: {name: tag_name, attributes: subtree(:attributes)}
+        tag:     {name: tag_name, attributes: subtree(:attributes)},
+        content: sequence(:values)
       }
     end
 
@@ -31,8 +23,6 @@ module Upmark
 
     rule(text: simple(:value)) { value.to_s }
 
-    rule(empty_tag(:br)) { "\n" }
-
     rule(tag(:p))      { "#{values.join}\n\n" }
     rule(tag(:strong)) { "**#{values.join}**" }
     rule(tag(:em))     { "*#{values.join}*" }
@@ -40,6 +30,7 @@ module Upmark
     rule(tag(:h1))     { "# #{values.join}" }
     rule(tag(:h2))     { "## #{values.join}" }
     rule(tag(:h3))     { "### #{values.join}" }
+    rule(tag(:br))     { "\n" }
 
     rule(tag(:ul)) do |dictionary|
       values = dictionary[:values].map {|value| value.strip != "" ? value : nil }.compact
@@ -60,7 +51,7 @@ module Upmark
       %Q{[#{values}](#{href} "#{title}")}
     end
 
-    rule(empty_tag(:img)) do |dictionary|
+    rule(tag(:img)) do |dictionary|
       attributes = map_attributes_subtree(dictionary[:attributes])
       href       = attributes[:src]
       title      = attributes[:title]
@@ -69,28 +60,10 @@ module Upmark
       %Q{![#{alt_text}](#{href} "#{title}")}
     end
 
-    # Catch-all rule to pass all empty tags through.
-    rule(
-      empty_tag: {name: simple(:tag_name), attributes: subtree(:attributes)}
-    ) do |dictionary|
-      attributes = map_attributes_subtree(dictionary[:attributes])
-      tag_name   = dictionary[:tag_name]
-
-      attributes_list =
-        if attributes.any?
-          " " + attributes.map {|name, value| %Q{#{name}="#{value}"} }.join(" ")
-        else
-          ""
-        end
-
-      %Q{<#{tag_name}#{attributes_list} />}
-    end
-
     # Catch-all rule to pass all tags through.
     rule(
-      start_tag: {name: simple(:tag_name), attributes: subtree(:attributes)},
-      end_tag:   {name: simple(:tag_name)},
-      content:   sequence(:values)
+      tag:     {name: simple(:tag_name), attributes: subtree(:attributes)},
+      content: sequence(:values)
     ) do |dictionary|
       attributes = map_attributes_subtree(dictionary[:attributes])
       values     = dictionary[:values].join
