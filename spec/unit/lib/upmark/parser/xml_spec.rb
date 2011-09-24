@@ -58,6 +58,7 @@ describe Upmark::Parser::XML do
   context "#empty_tag" do
     subject { parser.empty_tag }
 
+    it { should     parse %q{<tofu />} }
     it { should     parse %q{<tofu art="party" />} }
     it { should     parse %q{<tofu art="party" synth="letterpress" />} }
     it { should_not parse "<tofu>" }
@@ -91,7 +92,7 @@ describe Upmark::Parser::XML do
   context "#parse" do
     subject { parser.parse(html) }
 
-    context "single element" do
+    context "single tag" do
       let(:html) { "<p>messenger</p>" }
 
       it do
@@ -107,7 +108,21 @@ describe Upmark::Parser::XML do
       end
     end
 
-    context "single element with attributes" do
+    context "empty tag" do
+      let(:html) { "<br />" }
+
+      it do
+        should == [
+          {
+            element: {
+              empty_tag: {name: "br", attributes: []}
+            }
+          }
+        ]
+      end
+    end
+
+    context "single tag with attributes" do
       let(:html) { %q{<a href="http://helvetica.com/" title="art party organic">messenger bag skateboard</a>} }
 
       it do
@@ -129,7 +144,7 @@ describe Upmark::Parser::XML do
       end
     end
 
-    context "multiple inline elements" do
+    context "multiple inline tags" do
       let(:html) { "<p>messenger</p><p>bag</p><p>skateboard</p>" }
 
       it do
@@ -157,7 +172,7 @@ describe Upmark::Parser::XML do
       end
     end
 
-    context "multiple elements" do
+    context "multiple tags" do
       let(:html) { "<p>messenger</p>\n<p>bag</p>\n<p>skateboard</p>" }
 
       it do
@@ -189,7 +204,7 @@ describe Upmark::Parser::XML do
       end
     end
 
-    context "nested elements" do
+    context "nested tags" do
       let(:html) { "<p>messenger <strong>bag</strong> skateboard</p>" }
 
       it do
