@@ -85,8 +85,8 @@ messenger *bag* **skateboard**
 
 3. skateboard
 
-<div>messenger **bag** skateboard</div>
-<div id="tofu" class="art party">messenger **bag** skateboard</div>
+<div>messenger <strong>bag</strong> skateboard</div>
+<div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
 
 <table>
   <tr>

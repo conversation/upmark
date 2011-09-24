@@ -3,8 +3,8 @@ require "spec_helper"
 describe Upmark::Parser::XML do
   let(:parser) { Upmark::Parser::XML.new }
 
-  context "#content" do
-    subject { parser.content }
+  context "#node" do
+    subject { parser.node }
 
     it { should parse "" }
     it { should parse "messenger bag skateboard" }
@@ -101,7 +101,7 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "messenger"}]
+              children:  [{text: "messenger"}]
             }
           }
         ]
@@ -136,8 +136,8 @@ describe Upmark::Parser::XML do
                   {name: "title", value: "art party organic"}
                 ]
               },
-              end_tag: {name: "a"},
-              content: [{text: "messenger bag skateboard"}]
+              end_tag:  {name: "a"},
+              children: [{text: "messenger bag skateboard"}]
             }
           }
         ]
@@ -153,19 +153,19 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "messenger"}]
+              children:  [{text: "messenger"}]
             }
           }, {
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "bag"}]
+              children:  [{text: "bag"}]
             }
           }, {
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "skateboard"}]
+              children:  [{text: "skateboard"}]
             }
           }
         ]
@@ -181,7 +181,7 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "messenger"}]
+              children:  [{text: "messenger"}]
             }
           }, {
             text: "\n"
@@ -189,7 +189,7 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "bag"}]
+              children:  [{text: "bag"}]
             }
           }, {
             text: "\n"
@@ -197,7 +197,7 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [{text: "skateboard"}]
+              children:  [{text: "skateboard"}]
             }
           }
         ]
@@ -213,12 +213,13 @@ describe Upmark::Parser::XML do
             element: {
               start_tag: {name: "p", attributes: []},
               end_tag:   {name: "p"},
-              content:   [
-                {text: "messenger "},
+              children:  [
                 {
+                  text: "messenger "
+                }, {
                   element: {
                     start_tag: {name: "strong", attributes: []},
-                    content:   [{text: "bag"}],
+                    children:  [{text: "bag"}],
                     end_tag:   {name: "strong"}
                   }
                 }, {

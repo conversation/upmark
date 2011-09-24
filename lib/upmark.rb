@@ -3,7 +3,7 @@ require "parslet"
 require "core_ext/array"
 
 require "upmark/parser/xml"
-require "upmark/transform/ignore"
+require 'upmark/transform_helpers'
 require "upmark/transform/markdown"
 require "upmark/transform/pass_through"
 require "upmark/transform/preprocess"

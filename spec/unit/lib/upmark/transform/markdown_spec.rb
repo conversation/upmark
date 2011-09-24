@@ -7,13 +7,15 @@ describe Upmark::Transform::Markdown do
     subject { transform.apply(ast) }
 
     context "<p>" do
-      context "single element" do
+      context "single tag" do
         let(:ast) do
           [
             {
               element: {
-                tag:     {name: "p", attributes: []},
-                content: [{text: "messenger bag skateboard"}]
+                name: "p",
+                attributes: [],
+                children: [{text: "messenger bag skateboard"}],
+                ignore: false
               }
             }
           ]
@@ -22,23 +24,29 @@ describe Upmark::Transform::Markdown do
         it { should == ["messenger bag skateboard\n\n"] }
       end
 
-      context "multiple elements" do
+      context "multiple tags" do
         let(:ast) do
           [
             {
               element: {
-                tag:     {name: "p", attributes: []},
-                content: [{text: "messenger"}]
+                name: "p",
+                attributes: [],
+                children: [{text: "messenger"}],
+                ignore: false
               }
             }, {
               element: {
-                tag:     {name: "p", attributes: []},
-                content: [{text: "bag"}]
+                name: "p",
+                attributes: [],
+                children: [{text: "bag"}],
+                ignore: false
               }
             }, {
               element: {
-                tag:     {name: "p", attributes: []},
-                content: [{text: "skateboard"}]
+                name: "p",
+                attributes: [],
+                children: [{text: "skateboard"}],
+                ignore: false
               }
             }
           ]
@@ -49,19 +57,18 @@ describe Upmark::Transform::Markdown do
     end
 
     context "<a>" do
-      context "single element" do
+      context "single tag" do
         let(:ast) do
           [
             {
               element: {
-                tag: {
-                  name: "a",
-                  attributes: [
-                    {name: "href",  value: "http://helvetica.com/"},
-                    {name: "title", value: "art party organic"}
-                  ]
-                },
-                content: [{text: "messenger bag skateboard"}]
+                name: "a",
+                attributes: [
+                  {name: "href",  value: "http://helvetica.com/"},
+                  {name: "title", value: "art party organic"}
+                ],
+                children: [{text: "messenger bag skateboard"}],
+                ignore: false
               }
             }
           ]
@@ -72,20 +79,19 @@ describe Upmark::Transform::Markdown do
     end
 
     context "<img>" do
-      context "empty element" do
+      context "empty tag" do
         let(:ast) do
           [
             {
               element: {
-                tag: {
-                  name: "img",
-                  attributes: [
-                    {name: "src",   value: "http://helvetica.com/image.gif"},
-                    {name: "title", value: "art party organic"},
-                    {name: "alt",   value: "messenger bag skateboard"}
-                  ]
-                },
-                content: []
+                name: "img",
+                attributes: [
+                  {name: "src",   value: "http://helvetica.com/image.gif"},
+                  {name: "title", value: "art party organic"},
+                  {name: "alt",   value: "messenger bag skateboard"}
+                ],
+                children: [],
+                ignore: false
               }
             }
           ]

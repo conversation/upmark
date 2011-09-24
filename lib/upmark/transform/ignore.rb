@@ -1,18 +1,16 @@
 module Upmark
   module Transform
-    # A transform class which marks all elements as ignored in a subtree.
+    # A transform class which marks all elements in a subtree as ignored.
     class Ignore < Parslet::Transform
-      rule(
-        element: {
-          tag:     {name: simple(:tag_name), attributes: subtree(:attributes)},
-          content: subtree(:values)
-        }
-      ) do
+      include TransformHelpers
+
+      element(:*) do |element|
         {
           element: {
-            tag:     {name: tag_name, attributes: attributes},
-            content: PassThrough.new.apply(self.values),
-            ignore:  true
+            name:       element[:name],
+            attributes: element[:attributes],
+            children:   element[:children],
+            ignore:     true
           }
         }
       end

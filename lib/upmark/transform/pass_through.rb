@@ -1,16 +1,17 @@
+require "upmark/transform/ignore"
+
 module Upmark
   module Transform
     class PassThrough < Parslet::Transform
-      rule(
-        element: {
-          tag:     {name: "table", attributes: subtree(:attributes)},
-          content: subtree(:values)
-        }
-      ) do
+      include TransformHelpers
+
+      element(:div, :table) do |element|
         {
           element: {
-            tag:     {name: "table", attributes: attributes},
-            content: Ignore.new.apply(self.values)
+            name:       element[:name],
+            attributes: element[:attributes],
+            children:   Ignore.new.apply(element[:children]),
+            ignore:     true
           }
         }
       end

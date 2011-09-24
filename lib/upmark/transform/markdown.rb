@@ -5,74 +5,37 @@ module Upmark
     # Transforms an abstract syntax tree (AST) into a Markdown document.
     #
     class Markdown < Parslet::Transform
-      def self.tag(tag_name)
-        tag_name = tag_name.to_s.downcase
-        {
-          tag:     {name: tag_name, attributes: subtree(:attributes)},
-          content: sequence(:values)
-        }
-      end
-
-      def self.map_attributes_subtree(ast)
-        ast.inject({}) do |hash, attribute|
-          hash[attribute[:name].to_sym] = attribute[:value]
-          hash
-        end
-      end
-
-      rule(
-        tag:     {name: simple(:tag_name), attributes: subtree(:attributes)},
-        content: subtree(:values),
-        ignore: true
-      ) do |dictionary|
-        attributes = map_attributes_subtree(dictionary[:attributes])
-        values     = dictionary[:values].join
-        tag_name   = dictionary[:tag_name]
-
-        attributes_list =
-          if attributes.any?
-            " " + attributes.map {|name, value| %Q{#{name}="#{value}"} }.join(" ")
-          else
-            ""
-          end
-
-        %Q{<#{tag_name}#{attributes_list}>#{values}</#{tag_name}>}
-      end
-
-      rule(element: subtree(:values)) { values }
+      include TransformHelpers
 
       rule(text: simple(:value)) { value.to_s }
 
-      rule(tag(:p))      { "#{values.join}\n\n" }
-      rule(tag(:strong)) { "**#{values.join}**" }
-      rule(tag(:em))     { "*#{values.join}*" }
-      rule(tag(:li))     { "#{values.join}" }
-      rule(tag(:h1))     { "# #{values.join}" }
-      rule(tag(:h2))     { "## #{values.join}" }
-      rule(tag(:h3))     { "### #{values.join}" }
-      rule(tag(:br))     { "\n" }
+      element(:p)  {|element| "#{element[:children].join}\n\n" }
+      element(:h1) {|element| "# #{element[:children].join}" }
+      element(:h2) {|element| "## #{element[:children].join}" }
+      element(:h3) {|element| "### #{element[:children].join}" }
+      element(:li) {|element| "#{element[:children].join}" }
 
-      rule(tag(:ul)) do |dictionary|
-        values = dictionary[:values].map {|value| value.strip != "" ? value : nil }.compact
-        values.map {|value| "* #{value}\n" }
+      element(:ul) do |element|
+        children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
+        children.map {|value| "* #{value}\n" }
       end
 
-      rule(tag(:ol)) do |dictionary|
-        values = dictionary[:values].map {|value| value.strip != "" ? value : nil }.compact
-        values.map_with_index {|value, i| "#{i + 1}. #{value}\n" }
+      element(:ol) do |element|
+        children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
+        children.map_with_index {|value, i| "#{i + 1}. #{value}\n" }
       end
 
-      rule(tag(:a)) do |dictionary|
-        attributes = map_attributes_subtree(dictionary[:attributes])
+      element(:a) do |element|
+        attributes = map_attributes_subtree(element[:attributes])
         href       = attributes[:href]
         title      = attributes[:title]
-        values     = dictionary[:values].join
+        children   = element[:children].join
 
-        %Q{[#{values}](#{href} "#{title}")}
+        %Q{[#{children}](#{href} "#{title}")}
       end
 
-      rule(tag(:img)) do |dictionary|
-        attributes = map_attributes_subtree(dictionary[:attributes])
+      element(:img) do |element|
+        attributes = map_attributes_subtree(element[:attributes])
         href       = attributes[:src]
         title      = attributes[:title]
         alt_text   = attributes[:alt]
@@ -80,14 +43,23 @@ module Upmark
         %Q{![#{alt_text}](#{href} "#{title}")}
       end
 
-      # Catch-all rule to pass all tags through.
+      element(:b, :strong) {|element| "**#{element[:children].join}**" }
+      element(:i, :em)     {|element| "*#{element[:children].join}*" }
+
+      element(:br) { "\n" }
+
+      # Pass all unmatched elements through.
       rule(
-        tag:     {name: simple(:tag_name), attributes: subtree(:attributes)},
-        content: sequence(:values)
-      ) do |dictionary|
-        attributes = map_attributes_subtree(dictionary[:attributes])
-        values     = dictionary[:values].join
-        tag_name   = dictionary[:tag_name]
+        element: {
+          name:       simple(:name),
+          attributes: subtree(:attributes),
+          children:   sequence(:children),
+          ignore:     simple(:ignore)
+        }
+      ) do |element|
+        attributes = map_attributes_subtree(element[:attributes])
+        children    = element[:children].join
+        name       = element[:name]
 
         attributes_list =
           if attributes.any?
@@ -96,7 +68,11 @@ module Upmark
             ""
           end
 
-        %Q{<#{tag_name}#{attributes_list}>#{values}</#{tag_name}>}
+        if children.empty?
+          %Q{<#{name}#{attributes_list} />}
+        else
+          %Q{<#{name}#{attributes_list}>#{children}</#{name}>}
+        end
       end
     end
   end

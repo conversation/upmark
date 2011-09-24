@@ -1,24 +1,36 @@
 module Upmark
   module Transform
-    # A preprocess transform which normalises tags.
+    # A preprocess transform which normalises start/end/empty tags into the same structure.
     class Preprocess < Parslet::Transform
       rule(
-        start_tag: {name: simple(:tag_name), attributes: subtree(:attributes)},
-        end_tag:   {name: simple(:tag_name)},
-        content:   subtree(:values)
+        element: {
+          start_tag: {name: simple(:name), attributes: subtree(:attributes)},
+          end_tag:   {name: simple(:name)},
+          children:  subtree(:children)
+        }
       ) do
         {
-          tag:     {name: tag_name, attributes: attributes},
-          content: values
+          element: {
+            name:       name,
+            attributes: attributes,
+            children:   children,
+            ignore:     false
+          }
         }
       end
 
       rule(
-        empty_tag: {name: simple(:tag_name), attributes: subtree(:attributes)}
+        element: {
+          empty_tag: {name: simple(:name), attributes: subtree(:attributes)}
+        }
       ) do
         {
-          tag:     {name: tag_name, attributes: attributes},
-          content: []
+          element: {
+            name:       name,
+            attributes: attributes,
+            children:   [],
+            ignore:     false
+          }
         }
       end
     end

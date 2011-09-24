@@ -8,9 +8,9 @@ module Upmark
     #   http://www.w3.org/TR/2000/REC-xml-20001006
     #
     class XML < Parslet::Parser
-      root(:content)
+      root(:node)
 
-      rule(:content) {
+      rule(:node) {
         (
           element.as(:element) |
           text.as(:text)
@@ -20,7 +20,7 @@ module Upmark
       rule(:element) {
         (
           start_tag.as(:start_tag) >>
-          content.as(:content) >>
+          node.as(:children) >>
           end_tag.as(:end_tag)
         ) |
         empty_tag.as(:empty_tag)
