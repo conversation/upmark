@@ -5,7 +5,7 @@ module Upmark
     class PassThrough < Parslet::Transform
       include TransformHelpers
 
-      element(:div, :table) do |element|
+      element(:div, :table, :pre) do |element|
         {
           element: {
             name:       element[:name],
