@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    upmark (0.1.1)
+    upmark (0.1.2)
       parslet
 
 GEM
