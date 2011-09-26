@@ -1,35 +1,19 @@
+require "upmark/transform/ignore"
+
 module Upmark
   module Transform
-    # A preprocess transform which normalises start/end/empty tags into the same structure.
+    # A transform class which marks block-level elements as ignored.
+    # i.e. These elements should not be converted to Markdown.
     class Preprocess < Parslet::Transform
-      rule(
-        element: {
-          start_tag: {name: simple(:name), attributes: subtree(:attributes)},
-          end_tag:   {name: simple(:name)},
-          children:  subtree(:children)
-        }
-      ) do
-        {
-          element: {
-            name:       name,
-            attributes: attributes,
-            children:   children,
-            ignore:     false
-          }
-        }
-      end
+      include TransformHelpers
 
-      rule(
-        element: {
-          empty_tag: {name: simple(:name), attributes: subtree(:attributes)}
-        }
-      ) do
+      element(:div, :table, :pre) do |element|
         {
           element: {
-            name:       name,
-            attributes: attributes,
-            children:   [],
-            ignore:     false
+            name:       element[:name],
+            attributes: element[:attributes],
+            children:   Ignore.new.apply(element[:children]),
+            ignore:     true
           }
         }
       end

@@ -109,20 +109,18 @@ organic
     MD
   end
 
-  context "<div>" do
-    let(:html) { <<-HTML.strip }
+  context "block-level elements" do
+    context "<div>" do
+      let(:html) { <<-HTML.strip }
 <div>messenger <strong>bag</strong> skateboard</div>
 <div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
-    HTML
+      HTML
 
-    it { should == <<-MD.strip }
-<div>messenger <strong>bag</strong> skateboard</div>
-<div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
-    MD
-  end
+      it { should == html }
+    end
 
-  context "<table>" do
-    let(:html) { <<-HTML.strip }
+    context "<table>" do
+      let(:html) { <<-HTML.strip }
 <table>
   <tr>
     <td>messenger</td>
@@ -134,48 +132,33 @@ organic
     <td>skateboard</td>
   </tr>
 </table>
-    HTML
+      HTML
 
-    it { should == <<-MD.strip }
-<table>
-  <tr>
-    <td>messenger</td>
-  </tr>
-  <tr>
-    <td><strong>bag</strong></td>
-  </tr>
-  <tr>
-    <td>skateboard</td>
-  </tr>
-</table>
-    MD
-  end
+      it { should == html }
+    end
 
-  context "<pre>" do
-    let(:html) { <<-HTML.strip }
+    context "<pre>" do
+      let(:html) { <<-HTML.strip }
 <pre>
   <code>
     messenger bag skateboard
   </code>
 </pre>
-    HTML
+      HTML
 
-    it { should == <<-MD.strip }
-<pre>
-  <code>
-    messenger bag skateboard
-  </code>
-</pre>
-    MD
+      it { should == html }
+    end
   end
 
-  context "<span>" do
-    let(:html) { <<-HTML.strip }
+  context "span-level elements" do
+    context "<span>" do
+      let(:html) { <<-HTML.strip }
 <span>messenger <strong>bag</strong> skateboard</span>
-    HTML
+      HTML
 
-    it { should == <<-MD.strip }
+      it { should == <<-MD.strip }
 <span>messenger **bag** skateboard</span>
-    MD
+      MD
+    end
   end
 end

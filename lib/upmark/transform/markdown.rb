@@ -1,9 +1,7 @@
 module Upmark
   module Transform
-    # The Markdown transform class.
-    #
-    # Transforms an abstract syntax tree (AST) into a Markdown document.
-    #
+    # A transform class which converts an abstract syntax tree (AST) into
+    # a Markdown document.
     class Markdown < Parslet::Transform
       include TransformHelpers
 
