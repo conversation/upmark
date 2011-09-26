@@ -28,7 +28,8 @@ describe Upmark, ".convert" do
     let(:html) { <<-HTML.strip }
 <p>messenger <strong>bag</strong> skateboard</p>
 
-<p>art party<br />organic</p>
+<p>art party<br />
+organic</p>
     HTML
 
     it { should == <<-MD.strip }

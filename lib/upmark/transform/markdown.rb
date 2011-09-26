@@ -7,11 +7,15 @@ module Upmark
 
       rule(text: simple(:value)) { value.to_s }
 
-      element(:p)  {|element| "#{element[:children].join}\n\n" }
-      element(:h1) {|element| "# #{element[:children].join}" }
-      element(:h2) {|element| "## #{element[:children].join}" }
-      element(:h3) {|element| "### #{element[:children].join}" }
-      element(:li) {|element| "#{element[:children].join}" }
+      def self.text(element)
+        element[:children].join.gsub(/(\n)+/, '\1')
+      end
+
+      element(:p)  {|element| "#{text(element)}\n\n" }
+      element(:h1) {|element| "# #{text(element)}" }
+      element(:h2) {|element| "## #{text(element)}" }
+      element(:h3) {|element| "### #{text(element)}" }
+      element(:li) {|element| "#{text(element)}" }
 
       element(:ul) do |element|
         children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
@@ -27,9 +31,8 @@ module Upmark
         attributes = map_attributes_subtree(element[:attributes])
         href       = attributes[:href]
         title      = attributes[:title]
-        children   = element[:children].join
 
-        %Q{[#{children}](#{href} "#{title}")}
+        %Q{[#{text(element)}](#{href} "#{title}")}
       end
 
       element(:img) do |element|
@@ -41,8 +44,8 @@ module Upmark
         %Q{![#{alt_text}](#{href} "#{title}")}
       end
 
-      element(:b, :strong) {|element| "**#{element[:children].join}**" }
-      element(:i, :em)     {|element| "*#{element[:children].join}*" }
+      element(:b, :strong) {|element| "**#{text(element)}**" }
+      element(:i, :em)     {|element| "*#{text(element)}*" }
 
       element(:br) { "\n" }
 
@@ -56,7 +59,7 @@ module Upmark
         }
       ) do |element|
         attributes = map_attributes_subtree(element[:attributes])
-        children    = element[:children].join
+        children   = element[:children].join
         name       = element[:name]
 
         attributes_list =
