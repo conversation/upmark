@@ -13,7 +13,7 @@ namespace :spec do
   end
 
   desc "Run unit and acceptance specs"
-  task :all => [:"spec:unit", :"spec:acceptance"]
+  task all: [:"spec:unit", :"spec:acceptance"]
 end
 
 task default: :"spec:all"
