@@ -13,6 +13,16 @@ describe Upmark, ".convert" do
     MD
   end
 
+  context "<a> hard" do
+    let(:html) { <<-HTML.strip }
+<p><a href="http://jobs.latrobe.edu.au/jobDetails.asp?sJobIDs=545808&amp;sKeywords=business">Manager, Business Solutions</a></p>
+    HTML
+
+    it { should == <<-MD.strip }
+[Manager, Business Solutions](http://jobs.latrobe.edu.au/jobDetails.asp?sJobIDs=545808&amp;sKeywords=business "")
+    MD
+  end
+
   context "<img>" do
     let(:html) { <<-HTML.strip }
 <img src="http://helvetica.com/image.gif" title="art party organic" alt="messenger bag skateboard" />

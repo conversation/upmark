@@ -66,8 +66,10 @@ module Upmark
       }
 
       rule(:attribute_value) {
-        (match(/['"]/).absent? >> match(/[^<&]/)).repeat
+        (match(/['"]/).absent? >> (match(/[^<&]/) | entity_ref)).repeat
       }
+
+      rule(:entity_ref) { match("&") >> name >> match(";") }
 
       rule(:space)  { match(/\s/).repeat(1) }
       rule(:space?) { space.maybe }
