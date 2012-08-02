@@ -81,6 +81,8 @@ describe Upmark::Parser::XML do
 
     it { should     parse %q{art="party organic"} }
     it { should     parse %q{art='party organic'} }
+    it { should     parse %q{art="party'organic"} }
+    it { should     parse %q{art='party"organic'} }
     it { should_not parse "art" }
     it { should_not parse "art=" }
     it { should_not parse "art=party" }

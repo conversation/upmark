@@ -60,13 +60,17 @@ module Upmark
       rule(:attribute) {
         name.as(:name) >>
         str('=') >> (
-          (str('"') >> attribute_value.as(:value) >> str('"')) | # double quotes
-          (str("'") >> attribute_value.as(:value) >> str("'"))   # single quotes
+          (str('"') >> double_quoted_attribute_value.as(:value) >> str('"')) | # double quotes
+          (str("'") >> single_quoted_attribute_value.as(:value) >> str("'"))   # single quotes
         )
       }
 
-      rule(:attribute_value) {
-        (match(/['"]/).absent? >> (match(/[^<&]/) | entity_ref)).repeat
+      rule(:double_quoted_attribute_value) {
+        (str('"').absent? >> (match(/[^<&]/) | entity_ref)).repeat
+      }
+
+      rule(:single_quoted_attribute_value) {
+        (str("'").absent? >> (match(/[^<&]/) | entity_ref)).repeat
       }
 
       rule(:entity_ref) { match("&") >> name >> match(";") }
