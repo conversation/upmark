@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# This script is the standard way to run a CI build for all TC projects.
+# It's primarily used by buildbox
+
+# Exits bash immediately if any command fails
+set -e
+
+# Will output commands as the run
+set -x
+
+# prepare the repository state, load dependencies, etc
+ruby -v
+hostname
+bundle check || bundle --local --path=vendor/bundle  || bundle --path=vendor/bundle
+
+# .. and now start the build
+bundle exec rake
