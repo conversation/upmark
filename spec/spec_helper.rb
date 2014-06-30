@@ -2,6 +2,11 @@ require "parslet/rig/rspec"
 require "rspec"
 require "simplecov"
 
-SimpleCov.start
+if ENV["BUILDBOX"]
+  SimpleCov.start do
+    add_filter "spec/"
+    add_filter "vendor/bundle/"
+  end
+end
 
 require "upmark"
