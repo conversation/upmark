@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.name        = "upmark"
   s.version     = "0.1.4"
-  s.authors     = ["Josh Bassett", "Gus Gollings"]
+  s.authors     = ["Josh Bassett", "Gus Gollings", "James Healy"]
   s.email       = "dev@theconversation.edu.au"
   s.homepage    = "http://github.com/conversation/upmark"
   s.summary     = %q{A HTML to Markdown converter.}
