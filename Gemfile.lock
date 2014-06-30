@@ -12,6 +12,7 @@ GEM
     multi_json (1.0.3)
     parslet (1.4.0)
       blankslate (~> 2.0)
+    rake (10.3.2)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -29,6 +30,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rake
   rspec
   simplecov
   upmark!
