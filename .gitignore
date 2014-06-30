@@ -2,3 +2,4 @@
 .bundle
 coverage
 .rvmrc
+Gemfile.lock
