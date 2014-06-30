@@ -49,4 +49,4 @@ Upmark defines a parsing expression grammar (PEG) using the very awesome [Parsle
 
 ## License
 
-Upmark is Copyright (c) 2012 The Conversation Media Group and distributed under the MIT license.
+Upmark is Copyright (c) 2014 The Conversation Media Group and distributed under the MIT license.
