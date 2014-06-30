@@ -2,11 +2,9 @@
 
 $:.push File.expand_path("../lib", __FILE__)
 
-require "upmark/version"
-
 Gem::Specification.new do |s|
   s.name        = "upmark"
-  s.version     = Upmark::VERSION
+  s.version     = "0.1.4"
   s.authors     = ["Josh Bassett", "Gus Gollings"]
   s.email       = "dev@theconversation.edu.au"
   s.homepage    = "http://github.com/conversation/upmark"

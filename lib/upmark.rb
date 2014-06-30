@@ -7,7 +7,6 @@ require 'upmark/transform_helpers'
 require "upmark/transform/markdown"
 require "upmark/transform/normalise"
 require "upmark/transform/preprocess"
-require "upmark/version"
 
 module Upmark
   def self.convert(html)
