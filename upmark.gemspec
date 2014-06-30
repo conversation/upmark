@@ -11,9 +11,9 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "upmark"
 
-  s.files       = `git ls-files`.split("\n")
-  s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables = ["bin/upmark"]
+  s.files       =  Dir.glob("{lib,spec}/**/*") + ["Rakefile","LICENSE","README.md"]
+  s.test_files  =  Dir.glob("{spec}/**/*")
+  s.executables = ["upmark"]
 
   s.add_development_dependency "rspec", "~> 2.0", "< 2.99"
   s.add_development_dependency "rake"
