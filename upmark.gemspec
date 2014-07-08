@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "simplecov"
 
-  s.add_runtime_dependency "parslet"
+  s.add_runtime_dependency "parslet", "1.4.0"
 end
