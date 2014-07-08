@@ -2,6 +2,7 @@ require "parslet"
 
 require "core_ext/array"
 
+require 'upmark/errors'
 require "upmark/parser/xml"
 require 'upmark/transform_helpers'
 require "upmark/transform/markdown"
@@ -27,5 +28,7 @@ module Upmark
     ast = ast.gsub(/\n(\s*\n)+/, "\n\n")
 
     ast.strip
+  rescue Parslet::ParseFailed
+    raise Upmark::ParseFailed
   end
 end
