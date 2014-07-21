@@ -1,4 +1,4 @@
-v0.2.0 (10th July 2014)
+v0.2.0 (21st July 2014)
 * Upmark.convert() now raises an Upmark::ParseError exception if the supplied
   HTML can't be parsed
 * Locked the parslet dependency to 1.4.0 for now
