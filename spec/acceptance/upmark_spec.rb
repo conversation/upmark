@@ -106,17 +106,23 @@ organic
     MD
   end
 
-  context "<h1>" do
+  context "<h1>, <h2>, <h3>, <h4>, <h5>, <h6>" do
     let(:html) { <<-HTML.strip }
 <h1>messenger bag skateboard</h1>
 <h2>messenger bag skateboard</h2>
 <h3>messenger bag skateboard</h3>
+<h4>messenger bag skateboard</h4>
+<h5>messenger bag skateboard</h5>
+<h6>messenger bag skateboard</h6>
     HTML
 
     it { should == <<-MD.strip }
 # messenger bag skateboard
 ## messenger bag skateboard
 ### messenger bag skateboard
+#### messenger bag skateboard
+##### messenger bag skateboard
+###### messenger bag skateboard
     MD
   end
 
