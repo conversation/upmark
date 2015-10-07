@@ -63,6 +63,11 @@ organic
   <li><p><strong>bag</strong></p></li>
   <li><p>skateboard</p></li>
 </ul>
+
+<ul>
+  <li>• Bullet 1</li>
+  <li>• Bullet 2</li>
+</ul>
     HTML
 
     it { should == <<-MD.strip }
@@ -75,6 +80,9 @@ organic
 * **bag**
 
 * skateboard
+
+* Bullet 1
+* Bullet 2
     MD
   end
 

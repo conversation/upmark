@@ -22,7 +22,7 @@ module Upmark
 
       element(:ul) do |element|
         children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
-        children.map {|value| "* #{value}\n" }
+        children.map {|value| "* #{value.gsub(/^\s*•\s*/,'')}\n" }
       end
 
       element(:ol) do |element|
