@@ -30,6 +30,9 @@ module Upmark
     # Any more than two consecutive newline characters is superflous.
     ast.gsub!(/\n(\s*\n)+/, "\n\n")
 
+    # Remove other bullet points
+    ast.gsub!(/^•\s*/,"* ")
+
     ast.strip
   rescue Parslet::ParseFailed
     raise Upmark::ParseFailed

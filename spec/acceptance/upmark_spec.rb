@@ -196,6 +196,13 @@ Something else
     end
   end
 
+  context "plain text" do
+    let(:html) { "• Bullet 1\n• Bullet 2\n" }
+    it 'converts plain bullet points to text' do
+      expect(subject).to eq "* Bullet 1\n* Bullet 2"
+    end
+  end
+
   context "unbalanced elements" do
     let(:html) { "<span><span>foo</span>" }
 
