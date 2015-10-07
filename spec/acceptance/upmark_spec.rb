@@ -36,24 +36,29 @@ describe Upmark, ".convert" do
 
   context "<p>" do
     let(:html) { <<-HTML.strip }
+<p>• Bullet 1</p>
+<p>• Bullet 2</p>
 <p>messenger <strong>bag</strong> skateboard</p>
 
 <p>art party<br />
 organic</p>
 
-<p>• Bullet 1</p>
-<p>• Bullet 2</p>
+<p>• Bullet 3</p>
+<p>• Bullet 4</p>
 <p>Something else</p>
     HTML
 
     it { should == <<-MD.strip }
+* Bullet 1
+* Bullet 2
+
 messenger **bag** skateboard
 
 art party
 organic
 
-* Bullet 1
-* Bullet 2
+* Bullet 3
+* Bullet 4
 
 Something else
     MD
