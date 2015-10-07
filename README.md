@@ -31,7 +31,7 @@ Upmark will convert the following (arbitrarily nested) HTML elements to Markdown
 * `em`
 * `p`
 * `a`
-* `h1`, `h2`, `h3`
+* `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
 * `ul`
 * `ol`
 * `br`
