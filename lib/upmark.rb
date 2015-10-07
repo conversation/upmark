@@ -24,8 +24,11 @@ module Upmark
     # The result is either a String or an Array.
     ast = ast.join if ast.is_a?(Array)
 
+    # Compress bullet point lists
+    ast.gsub!(/\n•\s*([^•]*)\n\n\n•/,"\n* #{'\1'}\n*")
+
     # Any more than two consecutive newline characters is superflous.
-    ast = ast.gsub(/\n(\s*\n)+/, "\n\n")
+    ast.gsub!(/\n(\s*\n)+/, "\n\n")
 
     ast.strip
   rescue Parslet::ParseFailed

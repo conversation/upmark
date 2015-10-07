@@ -40,6 +40,10 @@ describe Upmark, ".convert" do
 
 <p>art party<br />
 organic</p>
+
+<p>• Bullet 1</p>
+<p>• Bullet 2</p>
+<p>Something else</p>
     HTML
 
     it { should == <<-MD.strip }
@@ -47,6 +51,11 @@ messenger **bag** skateboard
 
 art party
 organic
+
+* Bullet 1
+* Bullet 2
+
+Something else
     MD
   end
 
