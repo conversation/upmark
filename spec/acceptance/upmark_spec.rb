@@ -1,4 +1,4 @@
-describe Upmark, ".convert" do
+RSpec.describe Upmark, ".convert" do
   subject { Upmark.convert(html) }
 
   context "<a>" do

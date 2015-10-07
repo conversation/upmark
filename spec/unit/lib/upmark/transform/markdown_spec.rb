@@ -1,4 +1,4 @@
-describe Upmark::Transform::Markdown do
+RSpec.describe Upmark::Transform::Markdown do
   let(:transform) { Upmark::Transform::Markdown.new }
 
   context "#apply" do

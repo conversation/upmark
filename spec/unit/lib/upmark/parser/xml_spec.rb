@@ -1,4 +1,4 @@
-describe Upmark::Parser::XML do
+RSpec.describe Upmark::Parser::XML do
   let(:parser) { Upmark::Parser::XML.new }
 
   context "#node" do
