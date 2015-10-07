@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Upmark::Transform::Markdown do
   let(:transform) { Upmark::Transform::Markdown.new }
 

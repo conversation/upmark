@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Upmark, ".convert" do
   subject { Upmark.convert(html) }
 

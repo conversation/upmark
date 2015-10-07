@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Upmark::Parser::XML do
   let(:parser) { Upmark::Parser::XML.new }
 
