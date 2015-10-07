@@ -1,39 +1,46 @@
 RSpec.describe Upmark, ".convert" do
-  subject { Upmark.convert(html) }
+  RSpec::Matchers.define :convert_to do |expected|
+    match do |html|
+      Upmark.convert(actual) == expected
+    end
+  end
 
   context "<a>" do
-    let(:html) { <<-HTML.strip }
-<p><a href="http://helvetica.com/" title="art party organic">messenger <strong>bag</strong> skateboard</a></p>
-    HTML
-
-    it { should == <<-MD.strip }
-[messenger **bag** skateboard](http://helvetica.com/ "art party organic")
-    MD
+    specify 'converts to []()' do
+      expect(<<-HTML.strip
+        <p><a href="http://helvetica.com/" title="art party organic">messenger <strong>bag</strong> skateboard</a></p>
+      HTML
+      ).to convert_to <<-MD.strip
+        [messenger **bag** skateboard](http://helvetica.com/ "art party organic")
+      MD
+    end
   end
 
   context "<a> hard" do
-    let(:html) { <<-HTML.strip }
-<p><a href="http://jobs.latrobe.edu.au/jobDetails.asp?sJobIDs=545808&amp;sKeywords=business">Manager, Business Solutions</a></p>
-    HTML
-
-    it { should == <<-MD.strip }
+    specify 'converts as []()' do
+      expect(<<-HTML.strip
+        <p><a href="http://jobs.latrobe.edu.au/jobDetails.asp?sJobIDs=545808&amp;sKeywords=business">Manager, Business Solutions</a></p>
+      HTML
+      ).to convert_to <<-MD.strip
 [Manager, Business Solutions](http://jobs.latrobe.edu.au/jobDetails.asp?sJobIDs=545808&amp;sKeywords=business "")
-    MD
+      MD
+    end
   end
 
   context "<img>" do
-    let(:html) { <<-HTML.strip }
-<img src="http://helvetica.com/image.gif" title="art party organic" alt="messenger bag skateboard" />
-
-    HTML
-
-    it { should == <<-MD.strip }
+    specify 'converts as ![]()' do
+      expect(<<-HTML.strip
+        <img src="http://helvetica.com/image.gif" title="art party organic" alt="messenger bag skateboard" />
+      HTML
+      ).to convert_to <<-MD.strip
 ![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")
-    MD
+      MD
+    end
   end
 
   context "<p>" do
-    let(:html) { <<-HTML.strip }
+    specify 'converts as plaintext' do
+      expect(<<-HTML.strip
 <p>• Bullet 1</p>
 <p>• Bullet 2</p>
 <p>messenger <strong>bag</strong> skateboard</p>
@@ -44,9 +51,8 @@ organic</p>
 <p>• Bullet 3</p>
 <p>• Bullet 4</p>
 <p>Something else</p>
-    HTML
-
-    it { should == <<-MD.strip }
+      HTML
+      ).to convert_to <<-MD.strip
 * Bullet 1
 * Bullet 2
 
@@ -59,11 +65,13 @@ organic
 * Bullet 4
 
 Something else
-    MD
+      MD
+    end
   end
 
   context "<ul>" do
-    let(:html) { <<-HTML.strip }
+    specify 'converts as list' do
+      expect(<<-HTML.strip
 <ul>
   <li>messenger</li>
   <li><strong>bag</strong></li>
@@ -80,9 +88,8 @@ Something else
   <li>• Bullet 1</li>
   <li>• Bullet 2</li>
 </ul>
-    HTML
-
-    it { should == <<-MD.strip }
+      HTML
+      ).to convert_to <<-MD.strip
 * messenger
 * **bag**
 * skateboard
@@ -95,11 +102,13 @@ Something else
 
 * Bullet 1
 * Bullet 2
-    MD
+      MD
+    end
   end
 
   context "<ol>" do
-    let(:html) { <<-HTML.strip }
+    specify 'converts as numbered list' do
+      expect(<<-HTML.strip
 <ol>
   <li>messenger</li>
   <li><strong>bag</strong></li>
@@ -111,9 +120,8 @@ Something else
   <li><p><strong>bag</strong></p></li>
   <li><p>skateboard</p></li>
 </ol>
-    HTML
-
-    it { should == <<-MD.strip }
+      HTML
+      ).to convert_to <<-MD.strip
 1. messenger
 2. **bag**
 3. skateboard
@@ -123,27 +131,29 @@ Something else
 2. **bag**
 
 3. skateboard
-    MD
+      MD
+    end
   end
 
   context "<h1>, <h2>, <h3>, <h4>, <h5>, <h6>" do
-    let(:html) { <<-HTML.strip }
+    specify 'converts as #' do
+      expect(<<-HTML.strip
 <h1>messenger bag skateboard</h1>
 <h2>messenger bag skateboard</h2>
 <h3>messenger bag skateboard</h3>
 <h4>messenger bag skateboard</h4>
 <h5>messenger bag skateboard</h5>
 <h6>messenger bag skateboard</h6>
-    HTML
-
-    it { should == <<-MD.strip }
+      HTML
+      ).to convert_to <<-MD.strip
 # messenger bag skateboard
 ## messenger bag skateboard
 ### messenger bag skateboard
 #### messenger bag skateboard
 ##### messenger bag skateboard
 ###### messenger bag skateboard
-    MD
+      MD
+    end
   end
 
   context "block-level elements" do
@@ -153,7 +163,9 @@ Something else
 <div id="tofu" class="art party">messenger <strong>bag</strong> skateboard</div>
       HTML
 
-      it { should == html }
+      specify 'are left alone' do
+        expect(html).to convert_to html
+      end
     end
 
     context "<table>" do
@@ -171,7 +183,9 @@ Something else
 </table>
       HTML
 
-      it { should == html }
+      specify 'are left alone' do
+        expect(html).to convert_to html
+      end
     end
 
     context "<pre>" do
@@ -183,26 +197,30 @@ Something else
 </pre>
       HTML
 
-      it { should == html }
+      specify 'are left alone' do
+        expect(html).to convert_to html
+      end
     end
   end
 
   context "span-level elements" do
     context "<span>" do
-      let(:html) { <<-HTML.strip }
+      specify 'converts as ' do
+        expect(<<-HTML.strip
 <span>messenger <strong>bag</strong> skateboard</span>
-      HTML
-
-      it { should == <<-MD.strip }
+        HTML
+        ).to convert_to <<-MD.strip
 <span>messenger **bag** skateboard</span>
-      MD
+        MD
+      end
     end
   end
 
   context "plain text" do
-    let(:html) { "• Bullet 1\n• Bullet 2\n" }
-    it 'converts plain bullet points to text' do
-      expect(subject).to eq "* Bullet 1\n* Bullet 2"
+    it 'containing plain bullet points converts to markdown' do
+      expect(
+        "• Bullet 1\n• Bullet 2\n"
+      ).to convert_to "* Bullet 1\n* Bullet 2"
     end
   end
 

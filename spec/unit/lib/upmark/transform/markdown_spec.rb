@@ -1,9 +1,7 @@
 RSpec.describe Upmark::Transform::Markdown do
-  let(:transform) { Upmark::Transform::Markdown.new }
+  let(:transformed_ast) { Upmark::Transform::Markdown.new.apply(ast) }
 
   context "#apply" do
-    subject { transform.apply(ast) }
-
     context "<p>" do
       context "single tag" do
         let(:ast) do
@@ -19,7 +17,11 @@ RSpec.describe Upmark::Transform::Markdown do
           ]
         end
 
-        it { should == ["messenger bag skateboard\n\n"] }
+        it 'transforms to markdown' do
+          expect(
+            transformed_ast
+          ).to eq(["messenger bag skateboard\n\n"])
+        end
       end
 
       context "multiple tags" do
@@ -50,7 +52,11 @@ RSpec.describe Upmark::Transform::Markdown do
           ]
         end
 
-        it { should == ["messenger\n\n", "bag\n\n", "skateboard\n\n"] }
+        it 'transforms to markdown' do
+          expect(
+            transformed_ast
+          ).to eq(["messenger\n\n", "bag\n\n", "skateboard\n\n"])
+        end
       end
     end
 
@@ -72,7 +78,11 @@ RSpec.describe Upmark::Transform::Markdown do
           ]
         end
 
-        it { should == [%q{[messenger bag skateboard](http://helvetica.com/ "art party organic")}] }
+        it 'transforms to markdown' do
+          expect(
+            transformed_ast
+          ).to eq([%q{[messenger bag skateboard](http://helvetica.com/ "art party organic")}])
+        end
       end
     end
 
@@ -95,7 +105,11 @@ RSpec.describe Upmark::Transform::Markdown do
           ]
         end
 
-        it { should == [%q{![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")}] }
+        it 'transforms to markdown' do
+          expect(
+            transformed_ast
+          ).to eq([%q{![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")}])
+        end
       end
     end
   end
