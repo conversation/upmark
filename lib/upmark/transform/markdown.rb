@@ -7,6 +7,33 @@ module Upmark
 
       rule(text: simple(:value)) { value.to_s }
 
+      # Pass all unmatched elements through.
+      rule(
+        element: {
+          name:       simple(:name),
+          attributes: subtree(:attributes),
+          children:   sequence(:children),
+          ignore:     simple(:ignore)
+        }
+      ) do |element|
+        attributes = map_attributes_subtree(element[:attributes])
+        children   = element[:children].join
+        name       = element[:name]
+
+        attributes_list =
+          if attributes.any?
+            " " + attributes.map {|name, value| %Q{#{name}="#{value}"} }.join(" ")
+          else
+            ""
+          end
+
+        if children.empty?
+          %Q{<#{name}#{attributes_list} />}
+        else
+          %Q{<#{name}#{attributes_list}>#{children}</#{name}>}
+        end
+      end
+
       def self.text(element)
         element[:children].join.gsub(/(\n)+/, '\1')
       end
@@ -52,32 +79,6 @@ module Upmark
 
       element(:br) { "\n" }
 
-      # Pass all unmatched elements through.
-      rule(
-        element: {
-          name:       simple(:name),
-          attributes: subtree(:attributes),
-          children:   sequence(:children),
-          ignore:     simple(:ignore)
-        }
-      ) do |element|
-        attributes = map_attributes_subtree(element[:attributes])
-        children   = element[:children].join
-        name       = element[:name]
-
-        attributes_list =
-          if attributes.any?
-            " " + attributes.map {|name, value| %Q{#{name}="#{value}"} }.join(" ")
-          else
-            ""
-          end
-
-        if children.empty?
-          %Q{<#{name}#{attributes_list} />}
-        else
-          %Q{<#{name}#{attributes_list}>#{children}</#{name}>}
-        end
-      end
     end
   end
 end
