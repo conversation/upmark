@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
   s.test_files  =  Dir.glob("{spec}/**/*")
   s.executables = ["upmark"]
 
-  s.add_development_dependency "rspec", "~> 2.0", "< 2.99"
+  s.add_development_dependency "rspec", "~> 3.3"
   s.add_development_dependency "rake"
   s.add_development_dependency "simplecov"
 
-  s.add_runtime_dependency "parslet", "1.4.0"
+  s.add_runtime_dependency "parslet", "~> 1.7.0"
 end
