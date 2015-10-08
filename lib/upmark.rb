@@ -25,7 +25,7 @@ module Upmark
     ast = ast.join if ast.is_a?(Array)
 
     # Compress bullet point lists
-    ast.gsub!(/(^|\n)•\s*([^•]*)\n\n\n(?=•)/,"#{'\1'}* #{'\2'}\n")
+    ast.gsub!(/^•\s*([^•\n]*)\n+(?=•)/,"* #{'\1'}\n")
 
     # Any more than two consecutive newline characters is superflous.
     ast.gsub!(/\n(\s*\n)+/, "\n\n")

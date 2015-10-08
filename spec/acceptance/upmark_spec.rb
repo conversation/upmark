@@ -79,6 +79,10 @@ organic
 Something else
       MD
     end
+
+    it 'converts paragraph utf-8 bullet points to a markdown list' do
+      expect("<p>• Bullet 1</p><p>• Bullet 2</p>").to convert_to "* Bullet 1\n* Bullet 2"
+    end
   end
 
   context "<ul>" do
