@@ -1,8 +1,14 @@
 RSpec.describe Upmark, ".convert" do
   RSpec::Matchers.define :convert_to do |expected|
-    match do |html|
-      Upmark.convert(actual) == expected
+    match do
+      actual == expected
     end
+
+    def actual
+      @converted_actual ||= Upmark.convert(@actual)
+    end
+
+    diffable
   end
 
   context "<a>" do
@@ -50,6 +56,9 @@ organic</p>
 
 <p>• Bullet 3</p>
 <p>• Bullet 4</p>
+<p>• Bullet 5</p>
+<p>• Bullet 6</p>
+<p>• Bullet 7</p>
 <p>Something else</p>
       HTML
       ).to convert_to <<-MD.strip
@@ -63,6 +72,9 @@ organic
 
 * Bullet 3
 * Bullet 4
+* Bullet 5
+* Bullet 6
+* Bullet 7
 
 Something else
       MD
