@@ -3,3 +3,4 @@
 coverage
 .rvmrc
 Gemfile.lock
+.examples
