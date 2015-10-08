@@ -1,8 +1,14 @@
 RSpec.describe Upmark, ".convert" do
   RSpec::Matchers.define :convert_to do |expected|
-    match do |html|
-      Upmark.convert(actual) == expected
+    match do
+      actual == expected
     end
+
+    def actual
+      @converted_actual ||= Upmark.convert(@actual)
+    end
+
+    diffable
   end
 
   context "<a>" do
