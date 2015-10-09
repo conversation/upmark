@@ -24,6 +24,9 @@ module Upmark
     # The result is either a String or an Array.
     ast = ast.join if ast.is_a?(Array)
 
+    # Remove trailing whitespace
+    ast.gsub!(/ +$/,'')
+
     # Compress bullet point lists
     ast.gsub!(/^•\s*([^•\n]*)\n+(?=•)/,"* #{'\1'}\n")
 

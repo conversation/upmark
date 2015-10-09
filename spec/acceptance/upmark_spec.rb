@@ -196,9 +196,13 @@ Something else
     <td><p><strong>bag</strong></p></td>
   </tr>
   <tr>
-    <td>skateboarding </td>
+    <td>skateboarding</td>
     <td>is cool with all the kids<br/>
       or something</td>
+  </tr>
+  <tr>
+    <td><strong>Messenger bags</strong></td>
+    <td>are in with the hipsters though.</td>
   </tr>
 </table>
       HTML
@@ -213,8 +217,12 @@ messenger
 
 **bag**
 
-skateboarding is cool with all the kids
+skateboarding
+is cool with all the kids
 or something
+
+**Messenger bags**
+are in with the hipsters though.
         MD
       end
     end
