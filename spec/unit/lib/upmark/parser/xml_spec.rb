@@ -72,8 +72,6 @@ RSpec.describe Upmark::Parser::XML do
   end
 
   context "#start_tag" do
-    subject { parser.start_tag }
-
     it 'will parse %q{<tofu art="party">}' do
       expect(parser.start_tag).to parse %q{<tofu art="party">}
     end
@@ -95,8 +93,6 @@ RSpec.describe Upmark::Parser::XML do
   end
 
   context "#end_tag" do
-    subject { parser.end_tag }
-
     it 'will parse "</tofu>"' do
       expect(parser.end_tag).to parse "</tofu>"
     end
@@ -112,8 +108,6 @@ RSpec.describe Upmark::Parser::XML do
   end
 
   context "#empty_tag" do
-    subject { parser.empty_tag }
-
     it 'will parse %q{<tofu />}' do
       expect(parser.empty_tag).to parse %q{<tofu />}
     end
@@ -138,8 +132,6 @@ RSpec.describe Upmark::Parser::XML do
   end
 
   context "#name" do
-    subject { parser.name }
-
     it 'will parse "p"' do
       expect(parser.name).to parse "p"
     end
@@ -155,8 +147,6 @@ RSpec.describe Upmark::Parser::XML do
   end
 
   context "#attribute" do
-    subject { parser.attribute }
-
     it 'will parse %q{art="party organic"}' do
       expect(parser.attribute).to parse %q{art="party organic"}
     end

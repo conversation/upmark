@@ -10,68 +10,68 @@ module Upmark
     class XML < Parslet::Parser
       root(:node)
 
-      rule(:node) {
+      rule(:node) do
         (
           element.as(:element) |
           text.as(:text)
         ).repeat(0)
-      }
+      end
 
-      rule(:element) {
+      rule(:element) do
         (
           start_tag.as(:start_tag) >>
           node.as(:children) >>
           end_tag.as(:end_tag)
         ) |
         empty_tag.as(:empty_tag)
-      }
+      end
 
-      rule(:text) {
+      rule(:text) do
         match(/[^<>]/).repeat(1)
-      }
+      end
 
-      rule(:start_tag) {
+      rule(:start_tag) do
         str('<') >>
         name.as(:name) >>
         (space >> attribute).repeat.as(:attributes) >>
         space? >>
         str('>')
-      }
+      end
 
-      rule(:end_tag) {
+      rule(:end_tag) do
         str('</') >>
         name.as(:name) >>
         space? >>
         str('>')
-      }
+      end
 
-      rule(:empty_tag) {
+      rule(:empty_tag) do
         str('<') >>
         name.as(:name) >>
         (space >> attribute).repeat.as(:attributes) >>
         space? >>
         str('/>')
-      }
+      end
 
-      rule(:name) {
+      rule(:name) do
         match(/[a-zA-Z_:]/) >> match(/[\w:\.-]/).repeat
-      }
+      end
 
-      rule(:attribute) {
+      rule(:attribute) do
         name.as(:name) >>
         str('=') >> (
           (str('"') >> double_quoted_attribute_value.as(:value) >> str('"')) | # double quotes
           (str("'") >> single_quoted_attribute_value.as(:value) >> str("'"))   # single quotes
         )
-      }
+      end
 
-      rule(:double_quoted_attribute_value) {
+      rule(:double_quoted_attribute_value) do
         (str('"').absent? >> (match(/[^<&]/) | entity_ref)).repeat
-      }
+      end
 
-      rule(:single_quoted_attribute_value) {
+      rule(:single_quoted_attribute_value) do
         (str("'").absent? >> (match(/[^<&]/) | entity_ref)).repeat
-      }
+      end
 
       rule(:entity_ref) { match("&") >> name >> match(";") }
 
