@@ -8,6 +8,9 @@ RSpec.describe Upmark::Parser::XML do
     it 'will parse "messenger bag skateboard"' do
       expect(parser.node).to parse "messenger bag skateboard"
     end
+    it 'will parse html br tags' do
+      expect(parser.node).to parse '<p>One<br>Two</p>'
+    end
     it 'will parse "<p>messenger bag skateboard</p>"' do
       expect(
         parser.node
@@ -41,6 +44,9 @@ RSpec.describe Upmark::Parser::XML do
     end
     it 'will parse "<p>messenger bag skateboard</p>"' do
       expect(parser.element).to parse "<p>messenger bag skateboard</p>"
+    end
+    it 'will parse "<p>Some<br>Text</p>"' do
+      expect(parser.element).to parse "<p>Some<br>Text</p>"
     end
     it 'will parse %q{<tofu art="party" />}' do
       expect(parser.element).to parse %q{<tofu art="party" />}

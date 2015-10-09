@@ -18,6 +18,7 @@ module Upmark
       end
 
       rule(:element) do
+        empty_br |
         (
           start_tag.as(:start_tag) >>
           node.as(:children) >>
