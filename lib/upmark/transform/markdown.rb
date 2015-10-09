@@ -78,6 +78,7 @@ module Upmark
       element(:i, :em)     {|element| "*#{text(element)}*" }
 
       element(:br) { "\n" }
+      rule(element: { name: "br"}) { "\n" }
 
       element(:table, :thead, :tbody, :tfoot) do |element|
         element[:children].reject! { |c| c=~ /^[\n\s]*$/ }
