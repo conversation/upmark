@@ -107,6 +107,12 @@ RSpec.describe Upmark::Parser::XML do
     end
   end
 
+  context "#empty_br" do
+    it 'will parse html br tags' do
+      expect(parser.empty_br).to parse '<br>'
+    end
+  end
+
   context "#empty_tag" do
     it 'will parse %q{<tofu />}' do
       expect(parser.empty_tag).to parse %q{<tofu />}

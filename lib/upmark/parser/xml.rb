@@ -45,6 +45,10 @@ module Upmark
         str('>')
       end
 
+      rule(:empty_br) do
+        str('<') >> space? >> str('br').as(:name) >> space? >> str('>')
+      end
+
       rule(:empty_tag) do
         str('<') >>
         name.as(:name) >>
