@@ -7,7 +7,7 @@ module Upmark
     class Preprocess < Parslet::Transform
       include TransformHelpers
 
-      element(:div, :table, :pre) do |element|
+      element(:div, :pre) do |element|
         {
           element: {
             name:       element[:name],

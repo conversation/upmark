@@ -79,6 +79,19 @@ module Upmark
 
       element(:br) { "\n" }
 
+      element(:table, :thead, :tbody, :tfoot) do |element|
+        element[:children].reject! { |c| c=~ /^[\n\s]*$/ }
+        element[:children]
+      end
+      element(:tr) do |element|
+        element[:children]
+          .select { |c| Array === c }
+          .map do |children|
+            children.reject! { |c| c =~ /\A[\n\s]*\Z/ }
+            children.map { |c| c.gsub(/^ +/,'') }.join
+          end
+      end
+      element(:td, :th) { |element| element[:children] }
     end
   end
 end
