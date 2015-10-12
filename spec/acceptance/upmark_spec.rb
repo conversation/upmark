@@ -188,19 +188,42 @@ Something else
       let(:html) { <<-HTML.strip }
 <table>
   <tr>
-    <td>messenger</td>
+    <td><p><strong>messenger</strong></p></td>
+    <td><p>bag</p></td>
   </tr>
   <tr>
-    <td><strong>bag</strong></td>
+    <td><p>messenger</p></td>
+    <td><p><strong>bag</strong></p></td>
   </tr>
   <tr>
-    <td>skateboard</td>
+    <td>skateboarding</td>
+    <td><p>is cool with all the kids<br/>
+      or something</p></td>
+  </tr>
+  <tr>
+    <td><strong>Messenger bags</strong></td>
+    <td>are in with the hipsters though.</td>
   </tr>
 </table>
       HTML
 
-      specify 'are left alone' do
-        expect(html).to convert_to html
+      specify 'is converted to paragraphs' do
+        expect(html).to convert_to <<-MD.strip
+**messenger**
+
+bag
+
+messenger
+
+**bag**
+
+skateboarding
+is cool with all the kids
+or something
+
+**Messenger bags**
+are in with the hipsters though.
+        MD
       end
     end
 

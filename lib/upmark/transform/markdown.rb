@@ -35,7 +35,7 @@ module Upmark
       end
 
       def self.text(element)
-        element[:children].join.gsub(/(\n)+/, '\1')
+        element[:children].join.gsub(/(\n)[\n ]+/, '\1')
       end
 
       element(:p)  {|element| "#{text(element)}\n\n" }
@@ -78,6 +78,7 @@ module Upmark
       element(:i, :em)     {|element| "*#{text(element)}*" }
 
       element(:br) { "\n" }
+      rule(element: { name: "br"}) { "\n" }
 
     end
   end

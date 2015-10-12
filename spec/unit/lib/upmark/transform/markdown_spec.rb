@@ -2,6 +2,14 @@ RSpec.describe Upmark::Transform::Markdown do
   let(:transformed_ast) { Upmark::Transform::Markdown.new.apply(ast) }
 
   context "#apply" do
+    context '<br>' do
+      let(:ast) { [{ element: { name: 'br' }}] }
+
+      it 'will transform to markdown' do
+        expect(transformed_ast).to eq ["\n"]
+      end
+    end
+
     context "<p>" do
       context "single tag" do
         let(:ast) do
