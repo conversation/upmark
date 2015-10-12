@@ -197,8 +197,8 @@ Something else
   </tr>
   <tr>
     <td>skateboarding</td>
-    <td>is cool with all the kids<br/>
-      or something</td>
+    <td><p>is cool with all the kids<br/>
+      or something</p></td>
   </tr>
   <tr>
     <td><strong>Messenger bags</strong></td>

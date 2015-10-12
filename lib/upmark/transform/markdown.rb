@@ -35,7 +35,7 @@ module Upmark
       end
 
       def self.text(element)
-        element[:children].join.gsub(/(\n)+/, '\1')
+        element[:children].join.gsub(/(\n)[\n ]+/, '\1')
       end
 
       element(:p)  {|element| "#{text(element)}\n\n" }
