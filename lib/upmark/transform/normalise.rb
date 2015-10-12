@@ -3,13 +3,19 @@ module Upmark
     # A transform class withich normalises start/end/empty tags into the
     # same structure.
     class Normalise < Parslet::Transform
+
+      rule(element: subtree(:invalid)) do
+        raise Upmark::ParseFailed
+      end
+
       rule(
         element: {
           start_tag: {name: simple(:name), attributes: subtree(:attributes)},
-          end_tag:   {name: simple(:name)},
+          end_tag:   {name: simple(:end_tag_name)},
           children:  subtree(:children)
         }
       ) do
+        raise Upmark::ParseFailed unless name == end_tag_name
         {
           element: {
             name:       name,
@@ -34,6 +40,7 @@ module Upmark
           }
         }
       end
+
     end
   end
 end

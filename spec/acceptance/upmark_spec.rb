@@ -272,4 +272,14 @@ are in with the hipsters though.
       }.to raise_error(Upmark::ParseFailed)
     end
   end
+
+  context "unbalanced elements" do
+    let(:html) { "<p>foo</b>" }
+
+    it "should raise an exception" do
+      expect {
+        Upmark.convert(html)
+      }.to raise_error(Upmark::ParseFailed)
+    end
+  end
 end
