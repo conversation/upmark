@@ -242,16 +242,14 @@ are in with the hipsters though.
     end
   end
 
-  context "span-level elements" do
-    context "<span>" do
-      specify 'converts as ' do
-        expect(<<-HTML.strip
+  context "<span> elements" do
+    specify 'are stripped' do
+      expect(<<-HTML.strip
 <span>messenger <strong>bag</strong> skateboard</span>
-        HTML
-        ).to convert_to <<-MD.strip
-<span>messenger **bag** skateboard</span>
-        MD
-      end
+      HTML
+      ).to convert_to <<-MD.strip
+messenger **bag** skateboard
+      MD
     end
   end
 
