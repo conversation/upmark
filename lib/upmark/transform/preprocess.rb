@@ -18,6 +18,10 @@ module Upmark
         }
       end
 
+      element(:span) do |element|
+        element[:children]
+      end
+
       # table content elements are stripped ignoring their spacing
       element(:table, :thead, :tbody, :tfoot) do |element|
         element[:children].reject! do |c|
