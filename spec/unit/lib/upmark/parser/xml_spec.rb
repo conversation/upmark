@@ -38,6 +38,12 @@ RSpec.describe Upmark::Parser::XML do
     end
   end
 
+  context "#empty_element" do
+    it 'will parse <p> </p>' do
+      expect(parser.empty_element).to parse '<p> </p>'
+    end
+  end
+
   context "#element" do
     it 'will parse "<p></p>"' do
       expect(parser.element).to parse "<p></p>"
@@ -71,6 +77,9 @@ RSpec.describe Upmark::Parser::XML do
     end
     it 'will not parse "<p>messenger bag skateboard</p>"' do
       expect(parser.text).to_not parse "<p>messenger bag skateboard</p>"
+    end
+    it 'will not parse " "' do
+      expect(parser.text).to_not parse " "
     end
     it 'will not parse ""' do
       expect(parser.text).to_not parse ""
@@ -221,6 +230,20 @@ RSpec.describe Upmark::Parser::XML do
             }
           }
         ])
+      end
+
+      it 'will ignore empty text tags' do
+        expect(parser).to convert('<p> </p>').to(
+          [
+            {
+              empty:
+                {
+                  start_tag: { name: "p", attributes: [] },
+                  end_tag:   { name: "p" },
+                }
+            }
+          ]
+        )
       end
     end
 

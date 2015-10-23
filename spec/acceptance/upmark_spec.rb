@@ -54,6 +54,9 @@ RSpec.describe Upmark, ".convert" do
 <p>art party<br />
 organic</p>
 
+<p> </p>
+<p><strong> </strong></p>
+
 <p>• Bullet 3</p>
 <p>• Bullet 4</p>
 <p>• Bullet 5</p>
