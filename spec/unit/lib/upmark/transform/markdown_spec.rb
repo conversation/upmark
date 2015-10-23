@@ -75,14 +75,20 @@ RSpec.describe Upmark::Transform::Markdown do
     context "<a>" do
       context "single tag" do
         let(:ast) do
+          a_tag(
+            href: "http://helvetica.com/",
+            title: "art party organic",
+          )
+        end
+
+        def a_tag(attributes)
           [
             {
               element: {
                 name: "a",
-                attributes: [
-                  {name: "href",  value: "http://helvetica.com/"},
-                  {name: "title", value: "art party organic"}
-                ],
+                attributes: attributes.map do |key, value|
+                  { name: key.to_s, value: value }
+                end,
                 children: [{text: "messenger bag skateboard"}],
                 ignore: false
               }
@@ -94,6 +100,18 @@ RSpec.describe Upmark::Transform::Markdown do
           expect(
             transformed_ast
           ).to eq([%q{[messenger bag skateboard](http://helvetica.com/ "art party organic")}])
+        end
+
+        it 'strips local urls to their text' do
+          expect(
+            transform a_tag(href: 'file://some/path', title: 'Some Path')
+          ).to eq ['messenger bag skateboard']
+        end
+
+        it 'strips relative urls to their alt text' do
+          expect(
+            transform a_tag(src: 'some/path', title: 'Some Path')
+          ).to eq ['messenger bag skateboard']
         end
       end
     end

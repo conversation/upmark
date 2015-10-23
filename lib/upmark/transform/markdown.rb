@@ -62,7 +62,11 @@ module Upmark
         href       = attributes[:href]
         title      = attributes[:title]
 
-        %Q{[#{text(element)}](#{href} "#{title}")}
+        if /^http/ =~ href
+          %Q{[#{text(element)}](#{href} "#{title}")}
+        else
+          text(element)
+        end
       end
 
       element(:img) do |element|
