@@ -25,7 +25,7 @@ module Upmark
       end
 
       rule(:element) do
-        empty_br |
+        empty_br.as(:empty_tag) |
         (
           start_tag.as(:start_tag) >>
           node.as(:children) >>

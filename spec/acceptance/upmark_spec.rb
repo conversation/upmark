@@ -54,6 +54,9 @@ RSpec.describe Upmark, ".convert" do
 <p>art party<br />
 organic</p>
 
+<p>art party<br>
+organic</p>
+
 <p> </p>
 <p><strong> </strong></p>
 
@@ -69,6 +72,9 @@ organic</p>
 * Bullet 2
 
 messenger **bag** skateboard
+
+art party
+organic
 
 art party
 organic
