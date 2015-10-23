@@ -102,6 +102,12 @@ RSpec.describe Upmark::Transform::Markdown do
           ).to eq([%q{[messenger bag skateboard](http://helvetica.com/ "art party organic")}])
         end
 
+        it 'transforms mailto to markdown' do
+          expect(
+            transform a_tag(href: 'mailto:a@example.com', title: 'Some Path')
+          ).to eq([%q{[messenger bag skateboard](mailto:a@example.com "Some Path")}])
+        end
+
         it 'strips local urls to their text' do
           expect(
             transform a_tag(href: 'file://some/path', title: 'Some Path')
