@@ -8,6 +8,11 @@ module Upmark
         raise Upmark::ParseFailed
       end
 
+      # Strip empty tags
+      rule(empty: subtree(:invalid)) do
+        ' '
+      end
+
       rule(
         element: {
           start_tag: {name: simple(:name), attributes: subtree(:attributes)},

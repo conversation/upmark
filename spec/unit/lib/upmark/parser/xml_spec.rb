@@ -38,6 +38,12 @@ RSpec.describe Upmark::Parser::XML do
     end
   end
 
+  context "#empty_element" do
+    it 'will parse <p> </p>' do
+      expect(parser.empty_element).to parse '<p> </p>'
+    end
+  end
+
   context "#element" do
     it 'will parse "<p></p>"' do
       expect(parser.element).to parse "<p></p>"
@@ -71,6 +77,9 @@ RSpec.describe Upmark::Parser::XML do
     end
     it 'will not parse "<p>messenger bag skateboard</p>"' do
       expect(parser.text).to_not parse "<p>messenger bag skateboard</p>"
+    end
+    it 'will not parse " "' do
+      expect(parser.text).to_not parse " "
     end
     it 'will not parse ""' do
       expect(parser.text).to_not parse ""
@@ -194,13 +203,20 @@ RSpec.describe Upmark::Parser::XML do
   context "#parse" do
     RSpec::Matchers.define :convert do |html|
       match do |parser|
-        parser.parse(html) == ast
+        @actual = parser.parse(html)
+        @actual == @expected
       end
 
       chain :to do |ast|
-        @ast = ast
+        @expected = ast
       end
-      attr_reader :ast
+      attr_reader :expected
+
+      failure_message do
+        %Q{expected "#{html}" to parse to "#{@expected.inspect}" but was #{@result.inspect}}
+      end
+
+      diffable
     end
 
     context "single tag" do
@@ -214,6 +230,20 @@ RSpec.describe Upmark::Parser::XML do
             }
           }
         ])
+      end
+
+      it 'will ignore empty text tags' do
+        expect(parser).to convert('<p> </p>').to(
+          [
+            {
+              empty:
+                {
+                  start_tag: { name: "p", attributes: [] },
+                  end_tag:   { name: "p" },
+                }
+            }
+          ]
+        )
       end
     end
 

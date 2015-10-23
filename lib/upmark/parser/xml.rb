@@ -12,9 +12,16 @@ module Upmark
 
       rule(:node) do
         (
+          empty_element.as(:empty) |
           element.as(:element) |
           text.as(:text)
         ).repeat(0)
+      end
+
+      rule(:empty_element) do
+        start_tag.as(:start_tag) >>
+        match(/\s+/) >>
+        end_tag.as(:end_tag)
       end
 
       rule(:element) do
@@ -28,6 +35,7 @@ module Upmark
       end
 
       rule(:text) do
+        match(/\A[\s\n\t ]+\Z/m).absent? >> # ignore entirely empty strings
         match(/[^<>]/).repeat(1)
       end
 
