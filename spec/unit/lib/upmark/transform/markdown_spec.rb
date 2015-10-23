@@ -1,5 +1,9 @@
 RSpec.describe Upmark::Transform::Markdown do
-  let(:transformed_ast) { Upmark::Transform::Markdown.new.apply(ast) }
+  def transform(ast)
+    Upmark::Transform::Markdown.new.apply(ast)
+  end
+
+  let(:transformed_ast) { transform(ast) }
 
   context "#apply" do
     context '<br>' do
@@ -97,15 +101,21 @@ RSpec.describe Upmark::Transform::Markdown do
     context "<img>" do
       context "empty tag" do
         let(:ast) do
+          img(
+            src:   "http://helvetica.com/image.gif",
+            title: "art party organic",
+            alt:   "messenger bag skateboard",
+          )
+        end
+
+        def img(attributes)
           [
             {
               element: {
                 name: "img",
-                attributes: [
-                  {name: "src",   value: "http://helvetica.com/image.gif"},
-                  {name: "title", value: "art party organic"},
-                  {name: "alt",   value: "messenger bag skateboard"}
-                ],
+                attributes: attributes.map do |key, value|
+                  { name: key.to_s, value: value }
+                end,
                 children: [],
                 ignore: false
               }
@@ -117,6 +127,24 @@ RSpec.describe Upmark::Transform::Markdown do
           expect(
             transformed_ast
           ).to eq([%q{![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")}])
+        end
+
+        it 'strips file urls to their alt text or title' do
+          expect(
+            transform img(src: 'file://some/path', alt: 'Some', title: 'Path')
+          ).to eq ['Some']
+          expect(
+            transform img(src: 'file://some/path', title: 'Some Path')
+          ).to eq ['Some Path']
+        end
+
+        it 'strips relative urls to their alt text' do
+          expect(
+            transform img(src: 'some/path', alt: 'Some', title: 'Path')
+          ).to eq ['Some']
+          expect(
+            transform img(src: 'some/path', title: 'Some Path')
+          ).to eq ['Some Path']
         end
       end
     end

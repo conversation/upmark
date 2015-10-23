@@ -71,7 +71,11 @@ module Upmark
         title      = attributes[:title]
         alt_text   = attributes[:alt]
 
-        %Q{![#{alt_text}](#{href} "#{title}")}
+        if /^http/ =~ href
+          %Q{![#{alt_text}](#{href} "#{title}")}
+        else
+          "#{alt_text || title}"
+        end
       end
 
       element(:b, :strong) {|element| "**#{text(element)}**" }
