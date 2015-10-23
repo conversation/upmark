@@ -5,7 +5,7 @@ module Upmark
     class Normalise < Parslet::Transform
 
       rule(element: subtree(:invalid)) do
-        raise Upmark::ParseFailed
+        raise Upmark::ParseFailed.new('Invalid parse result', nil)
       end
 
       # Strip empty tags
@@ -20,7 +20,9 @@ module Upmark
           children:  subtree(:children)
         }
       ) do
-        raise Upmark::ParseFailed unless name == end_tag_name
+        unless name == end_tag_name
+          raise Upmark::ParseFailed.new('Mismatched tags', nil)
+        end
         {
           element: {
             name:       name,

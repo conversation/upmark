@@ -37,7 +37,7 @@ module Upmark
     ast.gsub!(/^•\s*/,"* ")
 
     ast.strip
-  rescue Parslet::ParseFailed
-    raise Upmark::ParseFailed
+  rescue Parslet::ParseFailed => e
+    raise Upmark::ParseFailed.new('Parse failed', e)
   end
 end
