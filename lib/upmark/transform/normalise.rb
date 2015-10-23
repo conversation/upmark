@@ -35,6 +35,21 @@ module Upmark
 
       rule(
         element: {
+          empty_tag: { name: simple(:name) }
+        }
+      ) do
+        {
+          element: {
+            name:       name,
+            attributes: [],
+            children:   [],
+            ignore:     false
+          }
+        }
+      end
+
+      rule(
+        element: {
           empty_tag: {name: simple(:name), attributes: subtree(:attributes)}
         }
       ) do
