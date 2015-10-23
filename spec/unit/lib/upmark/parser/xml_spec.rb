@@ -194,13 +194,20 @@ RSpec.describe Upmark::Parser::XML do
   context "#parse" do
     RSpec::Matchers.define :convert do |html|
       match do |parser|
-        parser.parse(html) == ast
+        @actual = parser.parse(html)
+        @actual == @expected
       end
 
       chain :to do |ast|
-        @ast = ast
+        @expected = ast
       end
-      attr_reader :ast
+      attr_reader :expected
+
+      failure_message do
+        %Q{expected "#{html}" to parse to "#{@expected.inspect}" but was #{@result.inspect}}
+      end
+
+      diffable
     end
 
     context "single tag" do
