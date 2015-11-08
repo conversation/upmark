@@ -1,3 +1,15 @@
+v0.9.0 (8th November 2015)
+* bump parslet dependency to 1.7.x
+* converts some new HTML elements to markdown - h4, h5 and h6
+* detects more content that looks like an unordered list and converts
+  it to a markdown list
+* strips some additional HTML tags and leaves the content, including
+  * table
+  * span
+* strips some HTML elements
+  * img tags with non http[s] src
+* improved error when unbalanced HTML tags are detected
+
 v0.2.0 (21st July 2014)
 * Upmark.convert() now raises an Upmark::ParseError exception if the supplied
   HTML can't be parsed
