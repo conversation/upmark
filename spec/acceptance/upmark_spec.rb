@@ -289,4 +289,12 @@ messenger **bag** skateboard
       }.to raise_error(Upmark::ParseFailed)
     end
   end
+
+  context "nested table" do
+    let(:html) { "<table><tr><td><table><tr><td><p>Hi <br />there</p></td></tr></table></td></tr></table>"}
+
+    it "should strip both tables" do
+      expect(html).to convert_to("Hi\nthere")
+    end
+  end
 end

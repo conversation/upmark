@@ -41,8 +41,10 @@ module Upmark
           .select { |c| Array === c }
           .map do |children|
             children.map do |child|
-              if child[:text]
-                child[:text].to_s.gsub!(/^\n */,'')
+              if child.is_a?(Hash) # if the td doesn't contain nested elements
+                if child[:text]
+                  child[:text].to_s.gsub!(/^\n */,'')
+                end
               end
               child
             end + ["\n"]
