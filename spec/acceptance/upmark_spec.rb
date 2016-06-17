@@ -33,6 +33,28 @@ RSpec.describe Upmark, ".convert" do
     end
   end
 
+  context "<a> with numeric entity" do
+    specify 'converts as []()' do
+      expect(<<-HTML.strip
+        <p><a href=\"http://www.abc.net.au/news/2016-02-18/haylen-we-need-a-drug-summit-because-we&#39;re-losing-the-war/7177152\">blah</a></p>
+      HTML
+      ).to convert_to <<-MD.strip
+[blah](http://www.abc.net.au/news/2016-02-18/haylen-we-need-a-drug-summit-because-we&#39;re-losing-the-war/7177152 "")
+      MD
+    end
+  end
+
+  context "<a> with query string" do
+    specify 'converts as []()' do
+      expect(<<-HTML.strip
+        <p><a href=\"http://www.abc.net.au/news/2016-02-18/blah?blah=lol&lol=rofl\">blah</a></p>
+      HTML
+      ).to convert_to <<-MD.strip
+[blah](http://www.abc.net.au/news/2016-02-18/blah?blah=lol&lol=rofl "")
+      MD
+    end
+  end
+
   context "<img>" do
     specify 'converts as ![]()' do
       expect(<<-HTML.strip
