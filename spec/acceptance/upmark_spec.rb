@@ -55,6 +55,28 @@ RSpec.describe Upmark, ".convert" do
     end
   end
 
+  context "<a> with inline elements, no href" do
+    specify 'converts as plain text' do
+      expect(<<-HTML.strip
+        <a>How Australia can respond to the security challenges posed by climate change in the Asian Century</a>
+      HTML
+      ).to convert_to <<-MD.strip
+How Australia can respond to the security challenges posed by climate change in the Asian Century
+      MD
+    end
+  end
+
+  context "<a> with id href" do
+    specify 'converts as plain text' do
+      expect(<<-HTML.strip
+        <a href=\"#sdfootnote3anc\">Labor MP calls to end dogs</a>
+      HTML
+      ).to convert_to <<-MD.strip
+Labor MP calls to end dogs
+      MD
+    end
+  end
+
   context "<img>" do
     specify 'converts as ![]()' do
       expect(<<-HTML.strip
