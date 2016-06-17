@@ -86,7 +86,7 @@ module Upmark
         (str("'").absent? >> (match(/[^<&]/) | entity_ref)).repeat
       end
 
-      rule(:entity_ref) { match("&") >> name >> match(";") }
+      rule(:entity_ref) { (match("&") >> name >> match(";")) | (match(/&#\d+;/) ) }
 
       rule(:space)  { match(/\s/).repeat(1) }
       rule(:space?) { space.maybe }
