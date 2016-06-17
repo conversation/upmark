@@ -79,11 +79,11 @@ module Upmark
       end
 
       rule(:double_quoted_attribute_value) do
-        (str('"').absent? >> (match(/[^<&]/) | entity_ref)).repeat
+        (str('"').absent? >> (match(/[^<]/) | entity_ref)).repeat
       end
 
       rule(:single_quoted_attribute_value) do
-        (str("'").absent? >> (match(/[^<&]/) | entity_ref)).repeat
+        (str("'").absent? >> (match(/[^<]/) | entity_ref)).repeat
       end
 
       rule(:entity_ref) { (match("&") >> name >> match(";")) | (match(/&#\d+;/) ) }
