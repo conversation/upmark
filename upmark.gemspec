@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "upmark"
-  s.version     = "0.9.0"
+  s.version     = "0.10.0"
   s.authors     = ["Josh Bassett", "Gus Gollings", "James Healy"]
   s.email       = "dev@theconversation.edu.au"
   s.homepage    = "http://github.com/conversation/upmark"
