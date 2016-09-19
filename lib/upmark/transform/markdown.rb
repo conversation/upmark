@@ -54,7 +54,7 @@ module Upmark
 
       element(:ol) do |element|
         children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
-        children.map_with_index {|value, i| "#{i + 1}. #{value}\n" }
+        children.map.with_index {|value, i| "#{i + 1}. #{value}\n" }
       end
 
       element(:a) do |element|

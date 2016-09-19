@@ -1,7 +1,5 @@
 require "parslet"
 
-require "core_ext/array"
-
 require 'upmark/errors'
 require "upmark/parser/xml"
 require 'upmark/transform_helpers'
