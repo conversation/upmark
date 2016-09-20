@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A HTML to Markdown converter.}
   s.description = %q{Upmark has the skills to convert your HTML to Markdown.}
 
+  s.required_ruby_version = ">= 1.9.3"
   s.rubyforge_project = "upmark"
 
   s.files       =  Dir.glob("{lib,spec}/**/*") + ["Rakefile","LICENSE","README.md"]
