@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.3"
   s.rubyforge_project = "upmark"
 
-  s.files       =  Dir.glob("{lib,spec}/**/*") + ["Rakefile","LICENSE","README.md"]
+  s.files       =  Dir.glob("{lib,spec}/**/*") + ["Rakefile", "LICENSE.md", "README.md"]
   s.test_files  =  Dir.glob("{spec}/**/*")
   s.executables = ["upmark"]
 
