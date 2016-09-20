@@ -4,16 +4,18 @@ A HTML to Markdown converter.
 
 ## Installation
 
-    gem install upmark
+    > gem install upmark
 
 ## Usage
 
 In ruby:
 
-    require "upmark"
-    html = %q{<p>messenger <strong>bag</strong> skateboard</p>}
-    markdown = Upmark.convert(html)
-    puts markdown
+```ruby
+require "upmark"
+html = "<p>messenger <strong>bag</strong> skateboard</p>"
+markdown = Upmark.convert(html)
+puts markdown
+```
 
 From the command-line:
 
