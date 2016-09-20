@@ -46,7 +46,3 @@ Upmark defines a parsing expression grammar (PEG) using the very awesome [Parsle
 2. Normalize the AST into a nested hash of HTML elements.
 3. Mark the block and span-level subtrees which should be ignored (`table`, `div`, `span`, etc).
 4. Convert the AST leaves into Markdown.
-
-## License
-
-Upmark is Copyright (c) 2014 The Conversation Media Group and distributed under the MIT license.
