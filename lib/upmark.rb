@@ -36,6 +36,8 @@ module Upmark
 
     ast.strip
   rescue Parslet::ParseFailed => e
+    puts "Parslet Failed, ASCII Tree:"
+    puts e.cause.ascii_tree
     raise Upmark::ParseFailed.new('Parse failed', e)
   end
 end
