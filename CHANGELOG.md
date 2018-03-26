@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 / 2018-03-27
+* Delegate `ascii_tree` method to cause object
+* Travis CI
+* Upgrade deps
+* Various cleanups
+
 ## v0.10.0 (17th June 2016)
 * better handling of HTML entities
 * better handling of hyperlinks with query strings
