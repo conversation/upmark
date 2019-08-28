@@ -48,8 +48,15 @@ module Upmark
       element(:li) {|element| "#{text(element)}" }
 
       element(:ul) do |element|
-        children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
-        children.map {|value| "* #{value.gsub(/^\s*•\s*/,'')}\n" }
+        element[:children].map do |value|
+          if value.is_a? Array
+            # Indent nested lists two spaces
+            value.map { |v| "  #{v}" }
+          else
+            # Prepend "* " and remove unicode •
+            value.strip != "" ? "* #{value.gsub(/^\s*•\s*/,'')}\n" : nil
+          end
+        end.compact
       end
 
       element(:ol) do |element|

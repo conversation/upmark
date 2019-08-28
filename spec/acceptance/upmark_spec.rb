@@ -173,6 +173,25 @@ Something else
 * Bullet 2
       MD
     end
+
+    specify 'converts nested ul as list' do
+      expect(<<-HTML.strip
+<ul>
+  <li>messenger</li>
+  <li>bag</li>
+  <ul>
+    <li>electric</li>
+    <li>skateboard</li>
+  </ul>
+</ul>
+      HTML
+      ).to convert_to <<-MD.strip
+* messenger
+* bag
+  * electric
+  * skateboard
+      MD
+    end
   end
 
   context "<ol>" do
