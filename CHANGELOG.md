@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Add support for nested <ul> lists
+
 ## 1.0.0 / 2018-03-27
 * Delegate `ascii_tree` method to cause object
 * Travis CI
