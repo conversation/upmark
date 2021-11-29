@@ -1,0 +1,16 @@
+name: Ruby Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Install dependencies
+        run: bundle install
+      - name: Run tests
+        run: bundle exec rake
