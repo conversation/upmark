@@ -42,7 +42,7 @@ It will also pass through block and span-level HTML elements (e.g. `table`, `div
 
 ## How it works
 
-Upmark defines a parsing expression grammar (PEG) using the very awesome [Parslet](http://kschiess.github.com/parslet/) gem. This PEG is then used to convert HTML into Markdown in 4 steps:
+Upmark defines a parsing expression grammar (PEG) using the very awesome [Parslet](https://github.com/kschiess/parslet/) gem. This PEG is then used to convert HTML into Markdown in 4 steps:
 
 1. Parse the XHTML into an abstract syntax tree (AST).
 2. Normalize the AST into a nested hash of HTML elements.
