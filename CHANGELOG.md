@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 / 2024-04-19
+* basic handling for nested lists
+
 ## 1.0.0 / 2018-03-27
 * Delegate `ascii_tree` method to cause object
 * Travis CI
