@@ -341,4 +341,36 @@ messenger **bag** skateboard
       expect(html).to convert_to("Hi\nthere")
     end
   end
-end
+
+  context "nested unordered lists" do
+  let(:html) do
+      <<-HTML
+      <ul>
+        <ul>
+          <li>List item</li>
+        </ul>
+      </ul>
+      HTML
+    end
+
+    it "generates readable output" do
+      expect(html).to convert_to("* * List item")
+    end
+  end
+
+  context "nested ordered lists" do
+    let(:html) do
+        <<-HTML
+        <ol>
+          <ol>
+            <li>List item</li>
+          </ol>
+        </ol>
+        HTML
+      end
+
+      it "generates readable output" do
+        expect(html).to convert_to("1. 1. List item")
+      end
+    end
+  end

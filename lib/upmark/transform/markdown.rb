@@ -48,12 +48,12 @@ module Upmark
       element(:li) {|element| "#{text(element)}" }
 
       element(:ul) do |element|
-        children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
+        children = element[:children].flatten.map {|value| value.strip != "" ? value : nil }.compact
         children.map {|value| "* #{value.gsub(/^\s*•\s*/,'')}\n" }
       end
 
       element(:ol) do |element|
-        children = element[:children].map {|value| value.strip != "" ? value : nil }.compact
+        children = element[:children].flatten.map {|value| value.strip != "" ? value : nil }.compact
         children.map.with_index {|value, i| "#{i + 1}. #{value}\n" }
       end
 
