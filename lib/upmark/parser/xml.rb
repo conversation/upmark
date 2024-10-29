@@ -36,7 +36,7 @@ module Upmark
 
       rule(:text) do
         match(/\A[\s\n\t ]+\Z/m).absent? >> # ignore entirely empty strings
-        match(/[^<>]/).repeat(1)
+        match(/[^<]/).repeat(1)
       end
 
       rule(:start_tag) do
