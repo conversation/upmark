@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0 / 2025-09-02
+
+* Potentially Breaking Change: `img` tags with base64 encoded `src` values,
+  which are not widely supported by markdown renderers, are removed to avoid
+  parser performance issues and crashes
+
 ## 1.1.0 / 2024-04-19
 * basic handling for nested lists
 

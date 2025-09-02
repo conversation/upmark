@@ -14,7 +14,11 @@ module Upmark
     preprocess   = Transform::Preprocess.new
     markdown     = Transform::Markdown.new
 
-    ast = xml.parse(html.strip)
+    # Remove base64 data URLs that cause parser issues
+    html = html.gsub(/(data:image\/[^;]*;base64,)[A-Za-z0-9+\/=]+/, '').strip
+
+    ast = xml.parse(html)
+
     ast = normalise.apply(ast)
     ast = preprocess.apply(ast)
     ast = markdown.apply(ast)
