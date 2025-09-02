@@ -86,6 +86,17 @@ Labor MP calls to end dogs
 ![messenger bag skateboard](http://helvetica.com/image.gif "art party organic")
       MD
     end
+
+    specify "removes base64 data URLs" do
+      expect(<<~HTML).to convert_to("")
+        <img src="data:image/png;base64,abc" />
+      HTML
+
+      src = "abc" * 10000
+      expect(<<~HTML).to convert_to("")
+        <img src="data:image/png;base64,#{src}" />
+      HTML
+    end
   end
 
   context "<p>" do

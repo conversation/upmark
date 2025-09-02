@@ -71,7 +71,7 @@ module Upmark
 
       element(:img) do |element|
         attributes = map_attributes_subtree(element[:attributes])
-        href       = attributes[:src]
+        href       = attributes[:src].to_s
         title      = attributes[:title]
         alt_text   = attributes[:alt]
 
